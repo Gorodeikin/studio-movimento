@@ -463,18 +463,28 @@ p {
 }
 
 /* Situations */
+/* Editorial divided list: no card boxes, a short accent mark above each
+   title and a hairline rule between entries carry the rhythm instead. */
 
 .situations__list {
   display: grid;
-  gap: var(--space-md);
+  grid-template-columns: 1fr;
+  row-gap: 0;
   margin-bottom: var(--space-lg);
 }
 
 .situation-card {
-  padding: var(--space-md);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding-block: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.situation-card::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  margin-bottom: var(--space-sm);
+  background-color: var(--color-brand);
 }
 
 .situation-card__title {
@@ -482,6 +492,12 @@ p {
 }
 
 /* Services */
+/* A defined card system: bordered surface with a solid top accent,
+   distinct from the Situations list and the Approach path. */
+
+.services {
+  background-color: var(--color-surface);
+}
 
 .services__list {
   display: grid;
@@ -490,8 +506,10 @@ p {
 }
 
 .service-card {
-  padding: var(--space-md);
+  padding: var(--space-lg) var(--space-md) var(--space-md);
   background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-brand);
   border-radius: var(--radius-md);
 }
 
@@ -504,6 +522,13 @@ p {
 }
 
 /* Approach */
+/* Soft green section band; each principle sits on a plain white surface
+   marked by a thin top rule and a small dot, read together as a single
+   gradual path rather than a repeat of the Services cards. */
+
+.approach {
+  background-color: var(--color-surface-muted);
+}
 
 .approach__list {
   display: grid;
@@ -511,10 +536,22 @@ p {
 }
 
 .approach-card {
-  padding: var(--space-md);
+  position: relative;
+  padding: var(--space-lg) var(--space-md) var(--space-md);
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+  border-top: 2px solid var(--color-border);
+}
+
+.approach-card::before {
+  content: "";
+  position: absolute;
+  top: -0.3125rem;
+  left: var(--space-md);
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background-color: var(--color-brand);
 }
 
 .approach-card__title {
@@ -799,7 +836,6 @@ p {
 @media (min-width: 48em) {
   /* 768px */
 
-  .situations__list,
   .services__list,
   .approach__list,
   .practical-info__list {
@@ -865,6 +901,27 @@ p {
     aspect-ratio: 4 / 5;
   }
 
+  .situations__list {
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: var(--space-xl);
+    row-gap: var(--space-lg);
+  }
+
+  .situations__item:nth-child(1),
+  .situations__item:nth-child(2) {
+    grid-column: span 3;
+  }
+
+  .situations__item:nth-child(3),
+  .situations__item:nth-child(4),
+  .situations__item:nth-child(5) {
+    grid-column: span 2;
+  }
+
+  .approach__list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .first-visit__list {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -908,21 +965,5 @@ p {
   .site-header__nav-list {
     justify-content: flex-end;
     gap: var(--space-lg);
-  }
-}
-
-@media (min-width: 80em) {
-  /* 1280px */
-
-  .services__list {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .approach__list {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .situations__list {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
