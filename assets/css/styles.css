@@ -1,4 +1,24 @@
 /* ==========================================================================
+   0. Fonts
+   ========================================================================== */
+
+@font-face {
+  font-family: "Manrope";
+  src: url("../fonts/manrope-variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/source-sans-3-variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+/* ==========================================================================
    1. Custom properties
    ========================================================================== */
 
@@ -18,8 +38,8 @@
   --color-success: #2f6b4f;
 
   /* Typography */
-  --font-heading: "Segoe UI", Arial, sans-serif;
-  --font-body: "Segoe UI", Arial, sans-serif;
+  --font-heading: "Manrope", "Segoe UI", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
   --font-size-body: 1.0625rem;
   --line-height-body: 1.6;
 
@@ -52,7 +72,7 @@
 
 @media (min-width: 64em) {
   :root {
-    --header-offset: 6rem;
+    --header-offset: 7.5rem;
   }
 }
 
@@ -145,11 +165,11 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(2rem, 1.6rem + 2vw, 3.25rem);
+  font-size: clamp(2.4rem, 1.9rem + 2.5vw, 4.8rem);
 }
 
 h2 {
-  font-size: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
+  font-size: clamp(2rem, 1.6rem + 2vw, 3.5rem);
 }
 
 h3 {
@@ -203,7 +223,8 @@ p {
   margin-bottom: var(--space-lg);
 }
 
-.section-heading__eyebrow {
+.section-heading__eyebrow,
+.hero__eyebrow {
   font-weight: 600;
   color: var(--color-brand);
   text-transform: uppercase;
@@ -257,6 +278,12 @@ p {
 
 .button--secondary:hover {
   background-color: var(--color-surface-muted);
+  color: var(--color-brand-hover);
+}
+
+.button--secondary:active {
+  background-color: var(--color-surface-muted);
+  border-color: var(--color-brand-hover);
   color: var(--color-brand-hover);
 }
 
@@ -347,7 +374,7 @@ p {
 .site-header__brand-name {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   color: var(--color-text-primary);
 }
 
@@ -379,6 +406,10 @@ p {
   color: var(--color-brand);
 }
 
+.site-header__nav-link:active {
+  color: var(--color-brand-hover);
+}
+
 /* Hero */
 
 .hero__content {
@@ -386,14 +417,6 @@ p {
   flex-direction: column;
   gap: var(--space-sm);
   max-width: 42rem;
-}
-
-.hero__eyebrow {
-  font-weight: 600;
-  color: var(--color-brand);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.875rem;
 }
 
 .hero__title {
@@ -414,6 +437,24 @@ p {
 
 .hero__notice {
   margin-top: var(--space-sm);
+}
+
+.hero__media {
+  margin-top: var(--space-lg);
+  aspect-ratio: 16 / 10;
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero__media-motif {
+  width: 60%;
+  height: 60%;
+  color: var(--color-brand);
 }
 
 /* Situations */
@@ -781,6 +822,25 @@ p {
 
 @media (min-width: 64em) {
   /* 1024px */
+
+  .site-header__container {
+    padding-block: var(--space-md);
+  }
+
+  .site-header__nav-list {
+    gap: var(--space-sm) var(--space-lg);
+  }
+
+  .hero__container {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+
+  .hero__media {
+    aspect-ratio: 4 / 5;
+  }
 
   .first-visit__list {
     grid-template-columns: repeat(2, 1fr);
