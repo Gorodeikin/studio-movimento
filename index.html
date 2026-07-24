@@ -54,15 +54,56 @@
           <p class="hero__notice notice">Studio Movimento è un concept project creato a scopo di portfolio. Lo studio e i contatti rappresentati nel sito non sono reali.</p>
         </div>
 
-        <div class="hero__media" aria-hidden="true">
-          <svg class="hero__media-motif" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M24 196C70 196 56 108 118 92C162 80 178 56 216 28" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity="0.55" />
-            <circle cx="24" cy="196" r="7" fill="currentColor" opacity="0.85" />
-            <circle cx="86" cy="150" r="5.5" fill="currentColor" opacity="0.65" />
-            <circle cx="140" cy="90" r="5" fill="currentColor" opacity="0.5" />
-            <circle cx="188" cy="50" r="4.5" fill="currentColor" opacity="0.4" />
-            <circle cx="216" cy="28" r="4" fill="currentColor" opacity="0.3" />
-          </svg>
+        <div class="hero__media">
+          <picture class="hero__picture">
+            <source
+              media="(max-width: 1023px)"
+              type="image/avif"
+              srcset="assets/images/hero/hero-therapy-mobile-640.avif 640w, assets/images/hero/hero-therapy-mobile-960.avif 960w"
+              sizes="calc(100vw - clamp(2rem, 6vw, 6rem))"
+            >
+            <source
+              media="(max-width: 1023px)"
+              type="image/webp"
+              srcset="assets/images/hero/hero-therapy-mobile-640.webp 640w, assets/images/hero/hero-therapy-mobile-960.webp 960w"
+              sizes="calc(100vw - clamp(2rem, 6vw, 6rem))"
+            >
+            <source
+              media="(max-width: 1023px)"
+              type="image/jpeg"
+              srcset="assets/images/hero/hero-therapy-mobile-640.jpg 640w, assets/images/hero/hero-therapy-mobile-960.jpg 960w"
+              sizes="calc(100vw - clamp(2rem, 6vw, 6rem))"
+            >
+            <source
+              media="(min-width: 1024px)"
+              type="image/avif"
+              srcset="assets/images/hero/hero-therapy-desktop-768.avif 768w, assets/images/hero/hero-therapy-desktop-1152.avif 1152w"
+              sizes="min(44vw, 549px)"
+            >
+            <source
+              media="(min-width: 1024px)"
+              type="image/webp"
+              srcset="assets/images/hero/hero-therapy-desktop-768.webp 768w, assets/images/hero/hero-therapy-desktop-1152.webp 1152w"
+              sizes="min(44vw, 549px)"
+            >
+            <source
+              media="(min-width: 1024px)"
+              type="image/jpeg"
+              srcset="assets/images/hero/hero-therapy-desktop-768.jpg 768w, assets/images/hero/hero-therapy-desktop-1152.jpg 1152w"
+              sizes="min(44vw, 549px)"
+            >
+            <img
+              class="hero__image"
+              src="assets/images/hero/hero-therapy-desktop-1152.jpg"
+              srcset="assets/images/hero/hero-therapy-desktop-768.jpg 768w, assets/images/hero/hero-therapy-desktop-1152.jpg 1152w"
+              sizes="min(44vw, 549px)"
+              alt="Persona che esegue un esercizio con una fascia elastica durante una sessione individuale."
+              width="1152"
+              height="1440"
+              decoding="async"
+              fetchpriority="high"
+            >
+          </picture>
         </div>
       </div>
     </section>
