@@ -559,12 +559,21 @@ p {
 }
 
 /* Specialist */
+/* Editorial two-column read at desktop (5/7 split, thin rule between);
+   a single flowing text column everywhere below that. */
 
 .specialist__content {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
   max-width: 46rem;
+}
+
+.specialist__placeholder {
+  display: inline-block;
+  margin-inline-end: 0.25em;
+  font-style: italic;
+  color: var(--color-text-secondary);
 }
 
 .specialist__notice {
@@ -615,23 +624,43 @@ p {
   margin-top: var(--space-2xs);
 }
 
+@media (max-width: 47.9375em) {
+  /* Below 768px the steps stack in one column: thread a thin vertical
+     line through the numbered circles to read as a single sequence. */
+
+  .visit-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: calc(var(--space-md) + 0.875rem - 1px);
+    top: calc(var(--space-md) + 1.75rem);
+    bottom: calc(-1 * var(--space-md));
+    width: 2px;
+    background-color: var(--color-border);
+  }
+}
+
 /* Practical info */
+/* A functional information panel, not another service-card grid: each
+   entry is a labelled field (left rule + uppercase label) rather than
+   a boxed card, so the section reads as data to scan, not offers to
+   compare. */
 
 .practical-info__list {
   display: grid;
-  gap: var(--space-md);
+  gap: var(--space-lg) var(--space-md);
   margin-bottom: var(--space-lg);
 }
 
 .info-card {
-  padding: var(--space-md);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding-left: var(--space-md);
+  border-left: 3px solid var(--color-brand);
 }
 
 .info-card__title {
   margin-bottom: var(--space-2xs);
+  font-size: 0.9375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .info-card__text + .info-card__text {
@@ -639,6 +668,7 @@ p {
 }
 
 .info-card__link {
+  font-weight: 600;
   word-break: break-word;
 }
 
@@ -838,8 +868,13 @@ p {
 
   .services__list,
   .approach__list,
+  .first-visit__list,
   .practical-info__list {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .practical-info__item:nth-child(3) {
+    grid-column: 1 / -1;
   }
 
   .site-header__container {
@@ -922,8 +957,25 @@ p {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .first-visit__list {
-    grid-template-columns: repeat(2, 1fr);
+  .practical-info__list {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .practical-info__item:nth-child(1) {
+    grid-column: span 7;
+  }
+
+  .practical-info__item:nth-child(2) {
+    grid-column: span 5;
+  }
+
+  .practical-info__item:nth-child(3) {
+    grid-column: span 6;
+  }
+
+  .practical-info__item:nth-child(4),
+  .practical-info__item:nth-child(5) {
+    grid-column: span 3;
   }
 
   .faq__list {
@@ -932,13 +984,15 @@ p {
 
   .specialist__container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 5fr 7fr;
     gap: var(--space-xl);
     align-items: start;
   }
 
   .specialist__header {
     margin-bottom: 0;
+    padding-right: var(--space-xl);
+    border-right: 1px solid var(--color-border);
   }
 }
 
