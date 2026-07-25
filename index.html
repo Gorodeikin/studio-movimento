@@ -6,6 +6,44 @@
   <title>Studio Movimento | Fisioterapia a Potenza</title>
   <meta name="description" content="Concept project di un sito per uno studio di fisioterapia a Potenza, dedicato al movimento quotidiano, alla gradualità e al contatto diretto con il professionista.">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <noscript>
+    <style>
+      @media (max-width: 47.9375em) {
+        .site-header__container:has(.site-header__menu) {
+          display: block;
+        }
+
+        .site-header__menu-panel {
+          display: flex;
+          position: static;
+          height: auto;
+          overflow: visible;
+        }
+
+        .site-header__menu[open] .site-header__menu-toggle-label--closed {
+          display: none;
+        }
+
+        .site-header__menu[open] .site-header__menu-toggle-label--open {
+          display: inline;
+        }
+
+        .site-header__menu[open] .site-header__menu-icon {
+          background-color: transparent;
+        }
+
+        .site-header__menu[open] .site-header__menu-icon::before {
+          top: 0;
+          transform: rotate(45deg);
+        }
+
+        .site-header__menu[open] .site-header__menu-icon::after {
+          top: 0;
+          transform: rotate(-45deg);
+        }
+      }
+    </style>
+  </noscript>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Vai al contenuto principale</a>
@@ -17,17 +55,27 @@
         <p class="site-header__brand-tagline">Fisioterapia a Potenza</p>
       </div>
 
-      <nav class="site-header__nav" aria-label="Navigazione principale">
-        <ul class="site-header__nav-list">
-          <li class="site-header__nav-item"><a class="site-header__nav-link" href="#servizi">Servizi</a></li>
-          <li class="site-header__nav-item"><a class="site-header__nav-link" href="#approccio">Approccio</a></li>
-          <li class="site-header__nav-item"><a class="site-header__nav-link" href="#prima-visita">Prima visita</a></li>
-          <li class="site-header__nav-item"><a class="site-header__nav-link" href="#faq">FAQ</a></li>
-          <li class="site-header__nav-item"><a class="site-header__nav-link" href="#contatti">Contatti</a></li>
-        </ul>
-      </nav>
+      <details class="site-header__menu" data-menu open>
+        <summary class="site-header__menu-toggle" data-menu-toggle>
+          <span class="site-header__menu-icon" aria-hidden="true"></span>
+          <span class="site-header__menu-toggle-label site-header__menu-toggle-label--closed">Menu</span>
+          <span class="site-header__menu-toggle-label site-header__menu-toggle-label--open">Chiudi</span>
+        </summary>
 
-      <a class="site-header__cta button button--primary" href="#contatti">Richiedi una prima valutazione</a>
+        <div class="site-header__menu-panel" id="site-menu-panel" data-menu-panel>
+          <nav class="site-header__nav" aria-label="Navigazione principale">
+            <ul class="site-header__nav-list">
+              <li class="site-header__nav-item"><a class="site-header__nav-link" href="#servizi">Servizi</a></li>
+              <li class="site-header__nav-item"><a class="site-header__nav-link" href="#approccio">Approccio</a></li>
+              <li class="site-header__nav-item"><a class="site-header__nav-link" href="#prima-visita">Prima visita</a></li>
+              <li class="site-header__nav-item"><a class="site-header__nav-link" href="#faq">FAQ</a></li>
+              <li class="site-header__nav-item"><a class="site-header__nav-link" href="#contatti">Contatti</a></li>
+            </ul>
+          </nav>
+
+          <a class="site-header__cta button button--primary" href="#contatti">Richiedi una prima valutazione</a>
+        </div>
+      </details>
     </div>
   </header>
 
@@ -322,51 +370,67 @@
           <h2 class="section-heading__title">Prima di contattarci</h2>
         </header>
 
-        <ul class="faq__list">
-          <li class="faq__item faq-item">
-            <h3 class="faq-item__question">È necessaria una prescrizione medica?</h3>
-            <p class="faq-item__answer">Dipende dal tipo di percorso e dalla situazione personale. Prima dell’appuntamento viene chiarito se sia utile portare una prescrizione o altra documentazione già disponibile.</p>
-            <p class="faq-item__answer">In presenza di un trauma recente, sintomi importanti o dubbi sulla diagnosi può essere necessario rivolgersi prima a un medico.</p>
+        <ul class="faq__list" data-faq-list>
+          <li class="faq__item faq-item" data-faq-item>
+            <h3 class="faq-item__question" data-faq-question>È necessaria una prescrizione medica?</h3>
+            <div class="faq-item__answer" data-faq-answer>
+              <p class="faq-item__answer-text">Dipende dal tipo di percorso e dalla situazione personale. Prima dell’appuntamento viene chiarito se sia utile portare una prescrizione o altra documentazione già disponibile.</p>
+              <p class="faq-item__answer-text">In presenza di un trauma recente, sintomi importanti o dubbi sulla diagnosi può essere necessario rivolgersi prima a un medico.</p>
+            </div>
           </li>
 
-          <li class="faq__item faq-item">
-            <h3 class="faq-item__question">Che cosa succede durante la prima visita?</h3>
-            <p class="faq-item__answer">La prima visita comprende un colloquio, la raccolta delle informazioni utili e una valutazione del movimento in relazione alle difficoltà quotidiane.</p>
-            <p class="faq-item__answer">Al termine vengono spiegate le osservazioni e gli eventuali passi successivi.</p>
+          <li class="faq__item faq-item" data-faq-item>
+            <h3 class="faq-item__question" data-faq-question>Che cosa succede durante la prima visita?</h3>
+            <div class="faq-item__answer" data-faq-answer>
+              <p class="faq-item__answer-text">La prima visita comprende un colloquio, la raccolta delle informazioni utili e una valutazione del movimento in relazione alle difficoltà quotidiane.</p>
+              <p class="faq-item__answer-text">Al termine vengono spiegate le osservazioni e gli eventuali passi successivi.</p>
+            </div>
           </li>
 
-          <li class="faq__item faq-item">
-            <h3 class="faq-item__question">Quanto dura un incontro?</h3>
-            <p class="faq-item__answer">La durata viene comunicata al momento della conferma. La prima visita può richiedere più tempo rispetto agli incontri successivi perché comprende il colloquio iniziale e la valutazione.</p>
+          <li class="faq__item faq-item" data-faq-item>
+            <h3 class="faq-item__question" data-faq-question>Quanto dura un incontro?</h3>
+            <div class="faq-item__answer" data-faq-answer>
+              <p class="faq-item__answer-text">La durata viene comunicata al momento della conferma. La prima visita può richiedere più tempo rispetto agli incontri successivi perché comprende il colloquio iniziale e la valutazione.</p>
+            </div>
           </li>
 
-          <li class="faq__item faq-item">
-            <h3 class="faq-item__question">Posso rivolgermi allo studio dopo un infortunio?</h3>
-            <p class="faq-item__answer">È possibile richiedere un primo contatto quando l’infortunio è già stato valutato oppure quando sono disponibili le indicazioni necessarie per iniziare un percorso fisioterapico.</p>
-            <p class="faq-item__answer">Il sito non permette di valutare a distanza la gravità di un infortunio.</p>
+          <li class="faq__item faq-item" data-faq-item>
+            <h3 class="faq-item__question" data-faq-question>Posso rivolgermi allo studio dopo un infortunio?</h3>
+            <div class="faq-item__answer" data-faq-answer>
+              <p class="faq-item__answer-text">È possibile richiedere un primo contatto quando l’infortunio è già stato valutato oppure quando sono disponibili le indicazioni necessarie per iniziare un percorso fisioterapico.</p>
+              <p class="faq-item__answer-text">Il sito non permette di valutare a distanza la gravità di un infortunio.</p>
+            </div>
           </li>
 
-          <li class="faq__item faq-item">
-            <h3 class="faq-item__question">Che cosa devo portare?</h3>
-            <p class="faq-item__answer">È consigliabile indossare abiti comodi. Se possiedi già prescrizioni o documenti utili, puoi portarli direttamente all’incontro.</p>
-            <p class="faq-item__answer">Non inviare documenti sanitari attraverso il modulo del sito.</p>
+          <li class="faq__item faq-item" data-faq-item>
+            <h3 class="faq-item__question" data-faq-question>Che cosa devo portare?</h3>
+            <div class="faq-item__answer" data-faq-answer>
+              <p class="faq-item__answer-text">È consigliabile indossare abiti comodi. Se possiedi già prescrizioni o documenti utili, puoi portarli direttamente all’incontro.</p>
+              <p class="faq-item__answer-text">Non inviare documenti sanitari attraverso il modulo del sito.</p>
+            </div>
           </li>
 
-          <li class="faq__item faq-item">
-            <h3 class="faq-item__question">Come viene concordato l’appuntamento?</h3>
-            <p class="faq-item__answer">Dopo la richiesta, il professionista contatta la persona attraverso il canale selezionato e propone una possibile disponibilità.</p>
-            <p class="faq-item__answer">Il modulo non effettua una prenotazione automatica.</p>
+          <li class="faq__item faq-item" data-faq-item>
+            <h3 class="faq-item__question" data-faq-question>Come viene concordato l’appuntamento?</h3>
+            <div class="faq-item__answer" data-faq-answer>
+              <p class="faq-item__answer-text">Dopo la richiesta, il professionista contatta la persona attraverso il canale selezionato e propone una possibile disponibilità.</p>
+              <p class="faq-item__answer-text">Il modulo non effettua una prenotazione automatica.</p>
+            </div>
           </li>
 
-          <li class="faq__item faq-item">
-            <h3 class="faq-item__question">Posso inviare referti o informazioni mediche attraverso il modulo?</h3>
-            <p class="faq-item__answer">No. Il modulo serve esclusivamente a richiedere un contatto.</p>
-            <p class="faq-item__answer">Non inserire diagnosi, referti, fotografie, informazioni sullo stato di salute o altri dati sanitari.</p>
+          <li class="faq__item faq-item" data-faq-item>
+            <h3 class="faq-item__question" data-faq-question>Posso inviare referti o informazioni mediche attraverso il modulo?</h3>
+            <div class="faq-item__answer" data-faq-answer>
+              <p class="faq-item__answer-text">No. Il modulo serve esclusivamente a richiedere un contatto.</p>
+              <p class="faq-item__answer-text">Non inserire diagnosi, referti, fotografie, informazioni sullo stato di salute o altri dati sanitari.</p>
+            </div>
           </li>
 
-          <li class="faq__item faq-item">
-            <h3 class="faq-item__question">Come posso spostare o annullare un appuntamento?</h3>
-            <p class="faq-item__answer">È possibile utilizzare il telefono o l’email indicati al momento della conferma e avvisare lo studio appena possibile.</p>
+          <li class="faq__item faq-item" data-faq-item>
+            <h3 class="faq-item__question" data-faq-question>Come posso spostare o annullare un appuntamento?</h3>
+            <div class="faq-item__answer" data-faq-answer>
+              <p class="faq-item__answer-text">È possibile utilizzare il telefono o l’email indicati al momento della conferma e avvisare lo studio appena possibile.</p>
+            </div>
           </li>
         </ul>
       </div>
@@ -510,5 +574,6 @@
     </div>
   </footer>
 
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

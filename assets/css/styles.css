@@ -61,7 +61,7 @@
   --focus-outline: 3px solid var(--color-accent);
 
   /* Sticky header scroll offset */
-  --header-offset: 18.25rem;
+  --header-offset: 6.75rem;
 }
 
 @media (min-width: 48em) {
@@ -412,6 +412,162 @@ p {
   white-space: nowrap;
 }
 
+/* Site header — mobile menu */
+/* details/summary drives the mobile menu natively so it keeps working
+   with JavaScript disabled; JS only layers ARIA sync, focus trap, Escape
+   and scroll-lock on top of the built-in open/close behaviour. */
+
+@media (max-width: 47.9375em) {
+  /* This compact-row + overlay layout assumes main.js is managing
+     open/close (scroll lock, Escape, resize reset). A <noscript>
+     block in <head> restores a plain stacked/in-flow fallback when
+     JS is unavailable, so the default here can stay unconditional —
+     conditioning it on a JS-added class instead would itself cause a
+     layout shift once that class lands after first paint. */
+  .site-header__container:has(.site-header__menu) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.site-header__menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding-inline: var(--space-xs);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  list-style: none;
+}
+
+.site-header__menu-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.site-header__menu-toggle::marker {
+  content: "";
+}
+
+.site-header__menu-icon {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 2px;
+  background-color: currentColor;
+}
+
+.site-header__menu-icon::before,
+.site-header__menu-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  transition: transform 0.15s ease, top 0.15s ease;
+}
+
+.site-header__menu-icon::before {
+  top: -0.375rem;
+}
+
+.site-header__menu-icon::after {
+  top: 0.375rem;
+}
+
+.site-header__menu-toggle-label--open {
+  display: none;
+}
+
+body.is-menu-open .site-header__menu-toggle-label--closed {
+  display: none;
+}
+
+body.is-menu-open .site-header__menu-toggle-label--open {
+  display: inline;
+}
+
+/* Keyed on body.is-menu-open (JS-driven), not the static `open`
+   attribute — so the icon doesn't render as an X before main.js has
+   had a chance to close the menu on mobile load. */
+body.is-menu-open .site-header__menu-icon {
+  background-color: transparent;
+}
+
+body.is-menu-open .site-header__menu-icon::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+body.is-menu-open .site-header__menu-icon::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__menu-icon::before,
+  .site-header__menu-icon::after {
+    transition: none;
+  }
+}
+
+@media (max-width: 47.9375em) {
+  /* Without JS, the details ships open (see the HTML) so desktop
+     navigation still works with scripting disabled. The <noscript>
+     block in <head> turns this absolute overlay back into a plain
+     in-flow panel for that case — with no scroll lock available, an
+     always-on overlay would otherwise permanently cover the page
+     underneath while scrolling instead of just pushing it down. */
+  .site-header__menu-panel {
+    display: none;
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    /* `100%` here resolves against the same containing block as
+       `top: 100%` above (the sticky header's own rendered box), so
+       this always equals "dynamic viewport height minus the header's
+       actual height" — self-adjusting, no hardcoded header height to
+       fall out of sync. `dvh` (rather than `vh`) keeps it correct as
+       mobile browser chrome shows/hides. */
+    height: calc(100dvh - 100%);
+    overflow-y: auto;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding: var(--space-lg) var(--container-padding);
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Gated on the JS-driven body class, not the static `open`
+     attribute, so the overlay never paints before main.js has closed
+     the menu on mobile load — eliminates the first-paint flash. */
+  body.is-menu-open .site-header__menu-panel {
+    display: flex;
+  }
+
+  .site-header__menu-panel .site-header__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .site-header__menu-panel .site-header__nav-link {
+    justify-content: flex-start;
+    font-size: 1.0625rem;
+  }
+}
+
+body.is-menu-open {
+  overflow: hidden;
+}
+
 /* Hero */
 
 .hero__content {
@@ -716,8 +872,72 @@ p {
   border-bottom: 1px solid var(--color-border);
 }
 
-.faq-item__answer + .faq-item__answer {
+.faq-item__answer-text + .faq-item__answer-text {
   margin-top: var(--space-2xs);
+}
+
+/* FAQ — accordion enhancement */
+/* Applied only after main.js successfully builds the buttons, so a
+   failed or disabled script leaves the plain, always-visible FAQ. */
+
+.faq--enhanced .faq-item__question {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.faq--enhanced .faq-item__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 2.75rem;
+  padding-block: var(--space-2xs) var(--space-sm);
+  margin-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  font: inherit;
+  font-weight: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+.faq--enhanced .faq-item__icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+}
+
+.faq--enhanced .faq-item__icon::before,
+.faq--enhanced .faq-item__icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: var(--color-brand);
+  transform: translate(-50%, -50%);
+}
+
+.faq--enhanced .faq-item__icon::before {
+  width: 100%;
+  height: 2px;
+}
+
+.faq--enhanced .faq-item__icon::after {
+  width: 2px;
+  height: 100%;
+  transition: transform 0.15s ease;
+}
+
+.faq--enhanced .faq-item__button[aria-expanded="true"] .faq-item__icon::after {
+  transform: translate(-50%, -50%) scaleY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq--enhanced .faq-item__icon::after {
+    transition: none;
+  }
 }
 
 /* Contact */
@@ -949,9 +1169,42 @@ p {
   }
 
   .site-header__cta {
-    grid-area: cta;
     width: auto;
     max-width: none;
+  }
+
+  .site-header__container:has(.site-header__menu) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "brand"
+      "menu";
+    row-gap: var(--space-sm);
+  }
+
+  /* Browsers never paint a closed details' non-summary content, no
+     matter what CSS overrides it — so main.js keeps the menu genuinely
+     open (details.open = true) at this width and up; the HTML also
+     ships with the `open` attribute so navigation stays reachable
+     even with JavaScript disabled. */
+  .site-header__menu {
+    grid-area: menu;
+  }
+
+  .site-header__menu-toggle {
+    display: none;
+  }
+
+  .site-header__menu-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .faq__list.faq--enhanced {
+    grid-template-columns: 1fr;
+    max-width: 46rem;
   }
 
   /* The simpler Privacy-page footer (disclaimer + single return link,
@@ -1118,6 +1371,16 @@ p {
   }
 
   .site-header__nav-list {
+    justify-content: flex-end;
+    gap: var(--space-lg);
+  }
+
+  .site-header__container:has(.site-header__menu) {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "brand menu";
+  }
+
+  .site-header__menu-panel {
     justify-content: flex-end;
     gap: var(--space-lg);
   }
