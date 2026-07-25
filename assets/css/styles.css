@@ -965,6 +965,11 @@ body.is-menu-open {
   grid-column: 1 / -1;
 }
 
+.contact-form__fieldset .form-field__error {
+  grid-column: 1 / -1;
+  margin-top: var(--space-2xs);
+}
+
 .contact-form__radio-item {
   display: flex;
   align-items: center;
@@ -987,8 +992,16 @@ body.is-menu-open {
 
 .contact-form__field--checkbox {
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: var(--space-xs);
+}
+
+/* Forces the error message (a later flex item) onto its own row below
+   the checkbox + label, instead of squeezing beside them. */
+.contact-form__field--checkbox .form-field__error {
+  flex-basis: 100%;
+  margin-left: calc(1.25rem + var(--space-xs));
 }
 
 .contact-form__checkbox-input {
@@ -1005,6 +1018,51 @@ body.is-menu-open {
 
 .contact-form__submit {
   width: 100%;
+}
+
+.contact-form--loading .contact-form__submit {
+  cursor: not-allowed;
+}
+
+/* Contact form — validation and status states */
+/* Applied only after main.js successfully enhances the form, so a
+   failed or disabled script leaves the plain, always-visible fields. */
+
+.contact-form--enhanced [hidden] {
+  display: none;
+}
+
+.form-field__error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+}
+
+.form-field--invalid .form-field__input,
+.form-field--invalid .form-field__select {
+  border-color: var(--color-error);
+  /* A shadow ring rather than a wider border, so the field's box size
+     never shifts when the error state toggles. */
+  box-shadow: 0 0 0 1px var(--color-error);
+}
+
+.contact-form__status {
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+}
+
+.contact-form__status--success {
+  background-color: var(--color-surface-muted);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.contact-form__status--error {
+  background-color: var(--color-surface-muted);
+  border-color: var(--color-error);
+  color: var(--color-error);
 }
 
 @media (min-width: 48em) {

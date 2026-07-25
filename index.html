@@ -447,7 +447,7 @@
 
         <p class="contact__notice notice">Questo modulo funziona esclusivamente in modalità dimostrativa. I dati inseriti non vengono trasmessi né salvati.</p>
 
-        <form class="contact-form">
+        <form class="contact-form" data-contact-form>
           <div class="contact-form__field form-field">
             <label class="form-field__label" for="contact-name">Nome</label>
             <input
@@ -459,10 +459,13 @@
               autocomplete="name"
               maxlength="100"
               required
+              data-contact-input="name"
+              aria-describedby="contact-name-error"
             >
+            <p class="form-field__error" id="contact-name-error" data-field-error hidden></p>
           </div>
 
-          <fieldset class="contact-form__fieldset form-field">
+          <fieldset class="contact-form__fieldset form-field" aria-describedby="contact-preference-error">
             <legend class="form-field__legend">Come preferisci essere contattato?</legend>
 
             <div class="contact-form__radio-item">
@@ -473,6 +476,7 @@
                 name="contact-preference"
                 value="email"
                 required
+                data-contact-method
               >
               <label class="contact-form__radio-label" for="contact-preference-email">Email</label>
             </div>
@@ -485,12 +489,15 @@
                 name="contact-preference"
                 value="telefono"
                 required
+                data-contact-method
               >
               <label class="contact-form__radio-label" for="contact-preference-phone">Telefono</label>
             </div>
+
+            <p class="form-field__error" id="contact-preference-error" data-field-error hidden></p>
           </fieldset>
 
-          <div class="contact-form__field form-field">
+          <div class="contact-form__field form-field" data-contact-field="email">
             <label class="form-field__label" for="contact-email">Indirizzo email</label>
             <input
               class="form-field__input"
@@ -498,10 +505,13 @@
               id="contact-email"
               name="contact-email"
               autocomplete="email"
+              data-contact-input="email"
+              aria-describedby="contact-email-error"
             >
+            <p class="form-field__error" id="contact-email-error" data-field-error hidden></p>
           </div>
 
-          <div class="contact-form__field form-field">
+          <div class="contact-form__field form-field" data-contact-field="phone">
             <label class="form-field__label" for="contact-phone">Numero di telefono</label>
             <input
               class="form-field__input"
@@ -509,7 +519,10 @@
               id="contact-phone"
               name="contact-phone"
               autocomplete="tel"
+              data-contact-input="phone"
+              aria-describedby="contact-phone-error"
             >
+            <p class="form-field__error" id="contact-phone-error" data-field-error hidden></p>
           </div>
 
           <div class="contact-form__field form-field">
@@ -530,15 +543,19 @@
               id="contact-privacy-consent"
               name="contact-privacy-consent"
               required
+              aria-describedby="contact-privacy-error"
             >
             <label class="form-field__label form-field__label--checkbox" for="contact-privacy-consent">
               Ho letto <a href="privacy.html">l’informativa sulla privacy</a> e ho compreso che il modulo funziona solo a scopo dimostrativo.
             </label>
+            <p class="form-field__error" id="contact-privacy-error" data-field-error hidden></p>
           </div>
 
           <div class="contact-form__actions">
-            <button class="contact-form__submit button button--primary" type="button">Invia la richiesta</button>
+            <button class="contact-form__submit button button--primary" type="button" data-form-submit>Invia la richiesta</button>
           </div>
+
+          <p class="contact-form__status" data-form-status tabindex="-1" role="status" aria-live="polite" hidden></p>
         </form>
       </div>
     </section>
