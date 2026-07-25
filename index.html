@@ -233,11 +233,39 @@
 
     <section class="approach section" id="approccio">
       <div class="approach__container container">
-        <header class="approach__header section-heading">
-          <p class="section-heading__eyebrow">Il nostro approccio</p>
-          <h2 class="section-heading__title">Un percorso costruito intorno alla persona</h2>
-          <p class="section-heading__intro">Non esiste un percorso identico per tutti. Il lavoro parte dalle esigenze concrete della persona e da ciò che desidera tornare a fare nella vita quotidiana.</p>
-        </header>
+        <div class="approach__intro">
+          <header class="approach__header section-heading">
+            <p class="section-heading__eyebrow">Il nostro approccio</p>
+            <h2 class="section-heading__title">Un percorso costruito intorno alla persona</h2>
+            <p class="section-heading__intro">Non esiste un percorso identico per tutti. Il lavoro parte dalle esigenze concrete della persona e da ciò che desidera tornare a fare nella vita quotidiana.</p>
+          </header>
+
+          <div class="approach__media">
+            <picture class="approach__picture">
+              <source
+                type="image/avif"
+                srcset="assets/images/approach/approach-guided-exercise-640.avif 640w, assets/images/approach/approach-guided-exercise-960.avif 960w, assets/images/approach/approach-guided-exercise-1280.avif 1280w"
+                sizes="(min-width: 64em) min(42vw, 480px), calc(100vw - clamp(2rem, 6vw, 6rem))"
+              >
+              <source
+                type="image/webp"
+                srcset="assets/images/approach/approach-guided-exercise-640.webp 640w, assets/images/approach/approach-guided-exercise-960.webp 960w, assets/images/approach/approach-guided-exercise-1280.webp 1280w"
+                sizes="(min-width: 64em) min(42vw, 480px), calc(100vw - clamp(2rem, 6vw, 6rem))"
+              >
+              <img
+                class="approach__image"
+                src="assets/images/approach/approach-guided-exercise-1280.jpg"
+                srcset="assets/images/approach/approach-guided-exercise-640.jpg 640w, assets/images/approach/approach-guided-exercise-960.jpg 960w, assets/images/approach/approach-guided-exercise-1280.jpg 1280w"
+                sizes="(min-width: 64em) min(42vw, 480px), calc(100vw - clamp(2rem, 6vw, 6rem))"
+                alt="Una persona accompagna il movimento del braccio di un’altra persona in uno spazio luminoso."
+                width="1280"
+                height="853"
+                loading="lazy"
+                decoding="async"
+              >
+            </picture>
+          </div>
+        </div>
 
         <ul class="approach__list">
           <li class="approach__item approach-card">
@@ -268,6 +296,50 @@
         <header class="specialist__header section-heading">
           <p class="section-heading__eyebrow">Il professionista</p>
           <h2 class="section-heading__title">Ascolto, chiarezza e attenzione al movimento</h2>
+
+          <div class="specialist__media">
+            <picture class="specialist__picture">
+              <source
+                media="(min-width: 64em)"
+                type="image/avif"
+                srcset="assets/images/specialist/specialist-movement-detail-desktop-480.avif 480w, assets/images/specialist/specialist-movement-detail-desktop-720.avif 720w, assets/images/specialist/specialist-movement-detail-desktop-960.avif 960w"
+                sizes="min(42vw, 480px)"
+              >
+              <source
+                media="(min-width: 64em)"
+                type="image/webp"
+                srcset="assets/images/specialist/specialist-movement-detail-desktop-480.webp 480w, assets/images/specialist/specialist-movement-detail-desktop-720.webp 720w, assets/images/specialist/specialist-movement-detail-desktop-960.webp 960w"
+                sizes="min(42vw, 480px)"
+              >
+              <source
+                media="(min-width: 64em)"
+                type="image/jpeg"
+                srcset="assets/images/specialist/specialist-movement-detail-desktop-480.jpg 480w, assets/images/specialist/specialist-movement-detail-desktop-720.jpg 720w, assets/images/specialist/specialist-movement-detail-desktop-960.jpg 960w"
+                sizes="min(42vw, 480px)"
+              >
+              <source
+                type="image/avif"
+                srcset="assets/images/specialist/specialist-movement-detail-mobile-640.avif 640w, assets/images/specialist/specialist-movement-detail-mobile-960.avif 960w"
+                sizes="calc(100vw - clamp(2rem, 6vw, 6rem))"
+              >
+              <source
+                type="image/webp"
+                srcset="assets/images/specialist/specialist-movement-detail-mobile-640.webp 640w, assets/images/specialist/specialist-movement-detail-mobile-960.webp 960w"
+                sizes="calc(100vw - clamp(2rem, 6vw, 6rem))"
+              >
+              <img
+                class="specialist__image"
+                src="assets/images/specialist/specialist-movement-detail-mobile-960.jpg"
+                srcset="assets/images/specialist/specialist-movement-detail-mobile-640.jpg 640w, assets/images/specialist/specialist-movement-detail-mobile-960.jpg 960w"
+                sizes="calc(100vw - clamp(2rem, 6vw, 6rem))"
+                alt="Una persona osserva e accompagna il movimento della schiena di un’altra persona."
+                width="960"
+                height="640"
+                loading="lazy"
+                decoding="async"
+              >
+            </picture>
+          </div>
         </header>
 
         <div class="specialist__content">
