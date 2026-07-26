@@ -253,6 +253,21 @@ p {
   font-size: 0.875rem;
 }
 
+/* Editorial direction (stage 6B.2): Situations/Services/Approach now
+   carry the terracotta eyebrow too, scoped to just these sections —
+   Specialist/First Visit/Practical/FAQ/Contact keep the brand-green
+   eyebrow above until their own redesign stage. */
+.situations .section-heading__eyebrow,
+.services .section-heading__eyebrow,
+.approach .section-heading__eyebrow {
+  /* terracotta-hover, not terracotta: the Approach eyebrow sits on the
+     new sage background, where plain terracotta measures 4.46:1 —
+     just under the 4.5:1 AA text minimum. terracotta-hover clears it
+     (6.6:1) on sage and on the other two sections' lighter backgrounds
+     alike, so one color choice covers all three safely. */
+  color: var(--color-terracotta-hover);
+}
+
 /* Editorial direction (stage 6B.1): the Hero eyebrow takes the new
    terracotta accent; other sections keep the older brand-green eyebrow
    above until they're redesigned in a later stage. */
@@ -709,8 +724,22 @@ body.is-menu-open {
 }
 
 /* Situations */
-/* Editorial divided list: no card boxes, a short accent mark above each
-   title and a hairline rule between entries carry the rhythm instead. */
+/* Editorial direction (stage 6B.2): a numbered list rather than card
+   boxes — the terracotta number carries the visual hierarchy that the
+   old accent line used to, and a hairline rule marks each entry. At
+   desktop the five entries split into a 3 + 2 composition, all five
+   the same width (see the 64em rule below) rather than a uniform
+   single-row grid. */
+
+/* Stage 6B.2a correction: a visible rule under the whole header
+   (eyebrow + title + intro), scoped to Situations only — the shared
+   .section-heading component (used by Services/Approach/etc.) is not
+   touched. */
+.situations__header {
+  padding-bottom: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-border-editorial);
+}
 
 .situations__list {
   display: grid;
@@ -721,25 +750,46 @@ body.is-menu-open {
 
 .situation-card {
   padding-block: var(--space-md);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-editorial);
 }
 
-.situation-card::before {
-  content: "";
+.situation-card__number {
   display: block;
-  width: 2.5rem;
-  height: 2px;
-  margin-bottom: var(--space-sm);
-  background-color: var(--color-brand);
+  margin-bottom: var(--space-xs);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  /* terracotta-hover: see the eyebrow rule above for the sage-contrast
+     rationale — kept identical across all three numbered lists. */
+  color: var(--color-terracotta-hover);
 }
 
 .situation-card__title {
   margin-bottom: var(--space-2xs);
 }
 
+/* Stage 6B.2a correction: a compact, left-aligned disclaimer instead
+   of the full-width banner the shared .notice gives it — scoped here
+   so .notice itself (used by Contact/Footer/Specialist) is untouched. */
+.situations__notice {
+  max-width: 32rem;
+  width: 100%;
+  padding: var(--space-xs) var(--space-sm);
+  background-color: transparent;
+  border: 1px solid var(--color-border-editorial);
+  border-radius: var(--radius-editorial-control);
+  text-align: left;
+}
+
 /* Services */
-/* A defined card system: bordered surface with a solid top accent,
-   distinct from the Situations list and the Approach path. */
+/* Editorial direction (stage 6B.2): a numbered, top-ruled list rather
+   than four bordered card boxes — same family as Situations/Approach,
+   but its own rhythm comes from an alternating vertical offset at
+   desktop only (see the 64em rule below), not from card styling. The
+   offset is intentionally desktop-only: at tablet/mobile all four
+   entries sit flush, so the asymmetry simplifies away exactly where
+   the task requires. */
 
 .services {
   background-color: var(--color-surface);
@@ -752,11 +802,18 @@ body.is-menu-open {
 }
 
 .service-card {
-  padding: var(--space-lg) var(--space-md) var(--space-md);
-  background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  border-top: 3px solid var(--color-brand);
-  border-radius: var(--radius-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-editorial);
+}
+
+.service-card__number {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  color: var(--color-terracotta-hover);
 }
 
 .service-card__title {
@@ -768,19 +825,30 @@ body.is-menu-open {
 }
 
 /* Approach */
-/* Soft green section band; each principle sits on a plain white surface
-   marked by a thin top rule and a small dot, read together as a single
-   gradual path rather than a repeat of the Services cards. */
+/* Editorial direction (stage 6B.2): the section label, heading, intro
+   text and the four principles now share a single column
+   (.approach__content) next to the photograph, instead of the photo
+   sitting as its own block above an unrelated four-card row below —
+   one composition rather than "heading / text / photo / four cards".
+   The principles reuse the numbered top-ruled list pattern from
+   Situations/Services, differentiated by living inside a narrower
+   text column beside the image rather than forming a grid of their
+   own. */
 
 .approach {
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-sage);
 }
 
-.approach__intro {
+.approach__grid {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  margin-bottom: var(--space-lg);
+}
+
+.approach__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
 }
 
 .approach__header {
@@ -789,8 +857,7 @@ body.is-menu-open {
 
 .approach__media {
   aspect-ratio: 3 / 2;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-editorial-image);
   overflow: hidden;
 }
 
@@ -806,27 +873,24 @@ body.is-menu-open {
 }
 
 .approach__list {
-  display: grid;
-  gap: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .approach-card {
-  position: relative;
-  padding: var(--space-lg) var(--space-md) var(--space-md);
-  background-color: var(--color-surface);
-  border-radius: var(--radius-md);
-  border-top: 2px solid var(--color-border);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-editorial);
 }
 
-.approach-card::before {
-  content: "";
-  position: absolute;
-  top: -0.3125rem;
-  left: var(--space-md);
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 50%;
-  background-color: var(--color-brand);
+.approach-card__number {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  color: var(--color-terracotta-hover);
 }
 
 .approach-card__title {
@@ -1331,7 +1395,6 @@ body.is-menu-open {
   /* 768px */
 
   .services__list,
-  .approach__list,
   .first-visit__list,
   .practical-info__list,
   .faq__list {
@@ -1473,33 +1536,104 @@ body.is-menu-open {
     z-index: 2;
   }
 
-  .situations__list {
-    grid-template-columns: repeat(6, 1fr);
-    column-gap: var(--space-xl);
-    row-gap: var(--space-lg);
-  }
-
-  .situations__item:nth-child(1),
-  .situations__item:nth-child(2) {
-    grid-column: span 3;
-  }
-
-  .situations__item:nth-child(3),
-  .situations__item:nth-child(4),
-  .situations__item:nth-child(5) {
-    grid-column: span 2;
-  }
-
-  .approach__intro {
+  /* Stage 6B.2a correction: two-column editorial header, scoped to
+     Situations only. Row 1 (eyebrow) leaves the right column empty;
+     row 2 puts the title left / intro right, both starting on the
+     same row so intro's top aligns with the title's top, not the
+     eyebrow's. */
+  .situations__header {
     display: grid;
     grid-template-columns: 7fr 5fr;
+    grid-template-areas:
+      "eyebrow ."
+      "title   intro";
+    column-gap: var(--space-xl);
+    row-gap: var(--space-xs);
     align-items: start;
-    gap: var(--space-xl);
-    margin-bottom: var(--space-xl);
+    max-width: none;
+    /* Stage 6B.2a final correction: tighter desktop rhythm — mobile/
+       tablet keep the base var(--space-xl) from the rule above. */
+    margin-bottom: var(--space-lg);
   }
 
-  .approach__list {
-    grid-template-columns: repeat(4, 1fr);
+  /* Stage 6B.2a final correction: desktop-only rhythm tightening — the
+     bottom half of the block's padding is dropped since row-gap now
+     carries the space between rows; mobile/tablet keep the symmetric
+     padding-block from the base rule. */
+  .situation-card {
+    padding-top: var(--space-md);
+    padding-bottom: 0;
+  }
+
+  .situations__header .section-heading__eyebrow {
+    grid-area: eyebrow;
+  }
+
+  .situations__header .section-heading__title {
+    grid-area: title;
+  }
+
+  .situations__header .section-heading__intro {
+    grid-area: intro;
+    margin-top: 0;
+  }
+
+  /* 3 + 2 (stage 6B.2a correction): all five items share the same
+     width (each spans 4 of 12 columns) — row 1 fills the full 12
+     columns edge to edge, row 2's two items are centered as a group
+     (columns 3–11) rather than stretched to the outer edges. No
+     `order` is used; DOM order stays 1–5. */
+  .situations__list {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-md);
+    row-gap: var(--space-md);
+  }
+
+  .situations__item:nth-child(1) {
+    grid-column: 1 / 5;
+  }
+
+  .situations__item:nth-child(2) {
+    grid-column: 5 / 9;
+  }
+
+  .situations__item:nth-child(3) {
+    grid-column: 9 / 13;
+  }
+
+  .situations__item:nth-child(4) {
+    grid-column: 3 / 7;
+  }
+
+  .situations__item:nth-child(5) {
+    grid-column: 7 / 11;
+  }
+
+  .approach__grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    align-items: stretch;
+    gap: var(--space-xl);
+  }
+
+  /* The fixed aspect-ratio is a mobile/tablet-only convenience (the
+     media is stacked there, so it needs its own proportions); at
+     desktop it sits beside the taller principles column, so it
+     stretches to match that column's height instead of leaving a gap
+     under a short, fixed-ratio image. object-fit: cover still crops
+     without distorting the photo itself. */
+  .approach__media {
+    aspect-ratio: unset;
+    height: 100%;
+    min-height: 26rem;
+  }
+
+  /* Controlled, alternating asymmetry — not a featured/priority signal:
+     every service keeps identical padding, border and type scale, only
+     the second and fourth entries sit lower. Desktop-only, so the
+     offset simplifies away at tablet/mobile as required. */
+  .services__item:nth-child(2n) {
+    margin-top: var(--space-lg);
   }
 
   .practical-info__list {
