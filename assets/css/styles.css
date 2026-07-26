@@ -6,7 +6,7 @@
   font-family: "Manrope";
   src: url("../fonts/manrope-variable.woff2") format("woff2");
   font-style: normal;
-  font-weight: 600 700;
+  font-weight: 600 800;
   font-display: swap;
 }
 
@@ -76,8 +76,6 @@
   --color-border-editorial: rgba(46, 59, 54, 0.16);
   --focus-outline-editorial: 3px solid var(--color-terracotta);
 
-  --header-height: 4rem;
-  --hero-max-width: 90rem;
   --radius-editorial-image: 0.125rem;
   --radius-editorial-control: 0.125rem;
 }
@@ -85,7 +83,6 @@
 @media (min-width: 64em) {
   :root {
     --header-offset: 7rem;
-    --header-height: 4.5rem;
   }
 }
 
@@ -272,17 +269,6 @@ p {
   color: var(--color-terracotta-hover);
 }
 
-/* Editorial direction (stage 6B.1): the Hero eyebrow takes the new
-   terracotta accent; other sections keep the older brand-green eyebrow
-   above until they're redesigned in a later stage. */
-.hero__eyebrow {
-  font-weight: 700;
-  color: var(--color-terracotta);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.8125rem;
-}
-
 .section-heading__title {
   margin: 0;
 }
@@ -436,53 +422,69 @@ p {
    ========================================================================== */
 
 /* Site header */
+/* Self-contained pixel-first component per pixel-spec.md — sizes,
+   paddings and breakpoints below are deliberately absolute px, not
+   shared with the rem-based section scale used elsewhere on the page. */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
   background-color: var(--color-limestone);
-  border-bottom: 1px solid var(--color-border-editorial);
+  border-bottom: 1px solid rgba(46, 59, 54, 0.12);
 }
 
 .site-header__container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-sm);
-  min-height: var(--header-height);
-  padding-block: var(--space-xs);
+  max-width: 1220px;
+  margin-inline: auto;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(20px, 5vw, 64px);
+}
+
+.site-header__brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
 .site-header__brand-name {
   font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.25rem;
+  font-weight: 800;
+  font-size: 20px;
   color: var(--color-forest);
   white-space: nowrap;
 }
 
 .site-header__brand-tagline {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
+  font-size: 12px;
+  color: #6b7770;
 }
 
+/* Site header — nav + CTA */
+/* The same nav/link/CTA elements serve both the compact dropdown panel
+   (<1024px) and the inline desktop row (>=1024px); details/summary
+   drives open/close natively so navigation keeps working with
+   JavaScript disabled, and main.js only layers ARIA sync, focus trap,
+   Escape and scroll-lock on top of the built-in open/close behaviour. */
+
 .site-header__nav-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-xs) var(--space-2xs);
+  display: flex;
+  flex-direction: column;
 }
 
 .site-header__nav-link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 2.75rem;
+  min-height: 44px;
+  padding-block: 12px;
+  border-bottom: 1px solid rgba(46, 59, 54, 0.08);
   text-decoration: none;
   color: var(--color-graphite);
   font-weight: 600;
-  font-size: 0.9375rem;
-  white-space: nowrap;
+  font-size: 17px;
 }
 
 .site-header__nav-link:hover {
@@ -494,51 +496,77 @@ p {
 }
 
 .site-header__cta {
-  width: 100%;
-  max-width: 18rem;
-  padding-inline: var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  padding-inline: 22px;
+  min-height: 44px;
+  background-color: var(--color-terracotta);
+  color: var(--color-limestone);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
   white-space: nowrap;
 }
 
-/* Site header — mobile menu */
-/* details/summary drives the mobile menu natively so it keeps working
-   with JavaScript disabled; JS only layers ARIA sync, focus trap, Escape
-   and scroll-lock on top of the built-in open/close behaviour. */
-
-@media (max-width: 63.9375em) {
-  /* Mobile/tablet compact header: toggle-driven menu up to 1023px,
-     matching the 1024px desktop-nav boundary synced with main.js
-     (matchMedia) and the <noscript> fallback in <head>.
-     This compact-row + overlay layout assumes main.js is managing
-     open/close (scroll lock, Escape, resize reset). A <noscript>
-     block in <head> restores a plain stacked/in-flow fallback when
-     JS is unavailable, so the default here can stay unconditional —
-     conditioning it on a JS-added class instead would itself cause a
-     layout shift once that class lands after first paint. */
-  .site-header__container:has(.site-header__menu) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+.site-header__cta:hover {
+  background-color: var(--color-terracotta-hover);
+  color: var(--color-limestone);
 }
 
+.site-header__cta:active {
+  background-color: var(--color-terracotta-hover);
+}
+
+/* Site header — hamburger (<1024px) */
+
 .site-header__menu-toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2xs);
-  min-width: 2.75rem;
-  min-height: 2.75rem;
-  padding-inline: var(--space-xs);
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 0.9375rem;
-  color: var(--color-text-primary);
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(46, 59, 54, 0.25);
+  background: transparent;
   cursor: pointer;
+  flex-shrink: 0;
   list-style: none;
 }
 
 .site-header__menu-toggle::-webkit-details-marker {
   display: none;
+}
+
+/* Accessible name for the hamburger button: visually hidden (clipped to
+   1x1px, not display:none) so it still contributes to the accessible
+   name via normal content, but never affects the button's 44x44 box or
+   the icon's layout. Which of the two labels is present in the
+   accessibility tree is driven purely by the native details[open]
+   attribute — no JavaScript required. */
+.site-header__menu-toggle-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-header__menu-toggle-label--close-menu {
+  display: none;
+}
+
+.site-header__menu[open] .site-header__menu-toggle-label--open-menu {
+  display: none;
+}
+
+.site-header__menu[open] .site-header__menu-toggle-label--close-menu {
+  display: inline;
 }
 
 .site-header__menu-toggle::marker {
@@ -548,10 +576,8 @@ p {
 .site-header__menu-icon {
   position: relative;
   display: inline-block;
-  flex-shrink: 0;
-  width: 1.25rem;
+  width: 20px;
   height: 2px;
-  background-color: currentColor;
 }
 
 .site-header__menu-icon::before,
@@ -559,39 +585,23 @@ p {
   content: "";
   position: absolute;
   left: 0;
-  width: 100%;
+  width: 20px;
   height: 2px;
-  background-color: currentColor;
+  background-color: var(--color-forest);
   transition: transform 0.15s ease, top 0.15s ease;
 }
 
 .site-header__menu-icon::before {
-  top: -0.375rem;
+  top: -4px;
 }
 
 .site-header__menu-icon::after {
-  top: 0.375rem;
-}
-
-.site-header__menu-toggle-label--open {
-  display: none;
-}
-
-body.is-menu-open .site-header__menu-toggle-label--closed {
-  display: none;
-}
-
-body.is-menu-open .site-header__menu-toggle-label--open {
-  display: inline;
+  top: 4px;
 }
 
 /* Keyed on body.is-menu-open (JS-driven), not the static `open`
    attribute — so the icon doesn't render as an X before main.js has
    had a chance to close the menu on mobile load. */
-body.is-menu-open .site-header__menu-icon {
-  background-color: transparent;
-}
-
 body.is-menu-open .site-header__menu-icon::before {
   top: 0;
   transform: rotate(45deg);
@@ -609,115 +619,213 @@ body.is-menu-open .site-header__menu-icon::after {
   }
 }
 
-@media (max-width: 63.9375em) {
-  /* Without JS, the details ships open (see the HTML) so desktop
-     navigation still works with scripting disabled. The <noscript>
-     block in <head> turns this absolute overlay back into a plain
-     in-flow panel for that case — with no scroll lock available, an
-     always-on overlay would otherwise permanently cover the page
-     underneath while scrolling instead of just pushing it down. */
-  .site-header__menu-panel {
-    display: none;
-    position: absolute;
-    inset-inline: 0;
-    top: 100%;
-    /* `100%` here resolves against the same containing block as
-       `top: 100%` above (the sticky header's own rendered box), so
-       this always equals "dynamic viewport height minus the header's
-       actual height" — self-adjusting, no hardcoded header height to
-       fall out of sync. `dvh` (rather than `vh`) keeps it correct as
-       mobile browser chrome shows/hides. */
-    height: calc(100dvh - 100%);
-    overflow-y: auto;
-    flex-direction: column;
-    gap: var(--space-lg);
-    padding: var(--space-lg) var(--container-padding);
-    background-color: var(--color-limestone);
-    border-top: 1px solid var(--color-border-editorial);
-  }
+/* Site header — compact (<1024px): toggle-driven dropdown panel, synced
+   with main.js (matchMedia) and the <noscript> fallback in <head>. */
 
-  /* Gated on the JS-driven body class, not the static `open`
-     attribute, so the overlay never paints before main.js has closed
-     the menu on mobile load — eliminates the first-paint flash. */
-  body.is-menu-open .site-header__menu-panel {
-    display: flex;
-  }
+.site-header__menu-panel {
+  display: none;
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  /* `100%` resolves against the sticky header's own rendered box (the
+     nearest positioned ancestor), so this always equals "viewport
+     height minus the header's actual height" — self-adjusting, no
+     hardcoded header height to fall out of sync. `dvh` keeps it
+     correct as mobile browser chrome shows/hides. */
+  height: calc(100dvh - 100%);
+  overflow-y: auto;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 20px 24px;
+  background-color: var(--color-limestone);
+  border-top: 1px solid rgba(46, 59, 54, 0.12);
+}
 
-  .site-header__menu-panel .site-header__nav-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2xs);
-  }
-
-  .site-header__menu-panel .site-header__nav-link {
-    justify-content: flex-start;
-    font-size: 1.0625rem;
-  }
+/* Gated on the JS-driven body class, not the static `open` attribute,
+   so the overlay never paints before main.js has closed the menu on
+   mobile load — eliminates the first-paint flash. */
+body.is-menu-open .site-header__menu-panel {
+  display: flex;
 }
 
 body.is-menu-open {
   overflow: hidden;
 }
 
+/* Site header — desktop (>=1024px): nav stays permanently open
+   (main.js forces details.open = true) and lays out as an inline row;
+   hamburger is hidden. Boundary synced with main.js (matchMedia) and
+   the <noscript> fallback in <head>. */
+
+@media (min-width: 1024px) {
+  .site-header__menu-toggle {
+    display: none;
+  }
+
+  .site-header__menu-panel {
+    display: flex;
+    position: static;
+    height: auto;
+    overflow: visible;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+    padding: 0;
+    background: none;
+    border-top: none;
+  }
+
+  .site-header__nav-list {
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .site-header__nav-link {
+    min-height: auto;
+    padding-block: 0;
+    border-bottom: none;
+    font-size: 15px;
+  }
+
+  .site-header__cta {
+    margin-top: 0;
+  }
+}
+
 /* Hero */
+/* Full-bleed, self-contained pixel-first component — deliberately
+   outside the standard 1220px container. See pixel-spec.md for the
+   desktop (1024-1439px) and wide-desktop (1440-1920px+) formulas. */
+
+.hero {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-limestone);
+  padding-top: clamp(16px, 3vw, 32px);
+}
+
+.hero__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
 
 .hero__content {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  max-width: 42rem;
+  gap: clamp(14px, 2.2vw, 20px);
+  padding: 0 clamp(20px, 5vw, 64px);
 }
 
-/* Editorial direction (stage 6B.1): a larger, tighter display scale for
-   the Hero H1 only — other headings keep the shared h1/h2/h3 rules
-   above until their sections are redesigned. */
+.hero__eyebrow {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-terracotta);
+}
+
 .hero__title {
   margin: 0;
-  max-width: 9.5em;
   color: var(--color-forest);
-  font-size: clamp(2.375rem, 6vw, 5.5rem);
-  line-height: 1.03;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(38px, 6vw, 88px);
+  line-height: 0.98;
   letter-spacing: -0.02em;
+}
+
+.hero__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.6vw, 18px);
+  line-height: 1.65;
+  color: var(--color-graphite-muted);
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-top: var(--space-xs);
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 16px 28px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.hero__cta--primary {
+  background-color: var(--color-terracotta);
+  color: var(--color-limestone);
+}
+
+.hero__cta--primary:hover {
+  background-color: var(--color-terracotta-hover);
+  color: var(--color-limestone);
+}
+
+.hero__cta--primary:active {
+  background-color: var(--color-terracotta-hover);
+}
+
+.hero__cta--secondary {
+  background-color: transparent;
+  border: 1.5px solid var(--color-forest);
+  color: var(--color-forest);
+}
+
+.hero__cta--secondary:hover {
+  background-color: rgba(28, 46, 39, 0.06);
+}
+
+.hero__cta--secondary:active {
+  background-color: rgba(28, 46, 39, 0.1);
 }
 
 .hero__meta {
-  color: var(--color-text-secondary);
-  font-size: 0.9375rem;
+  font-size: 14px;
+  color: #6b7770;
 }
 
 .hero__notice {
-  margin-top: var(--space-sm);
+  padding: 16px 20px;
+  border: 1px solid rgba(46, 59, 54, 0.2);
+  background-color: rgba(220, 227, 218, 0.4);
+  font-size: 14px;
+  line-height: 1.55;
+  color: #4a564f;
 }
 
 .hero__media {
   position: relative;
-  margin-top: var(--space-lg);
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: clamp(300px, 58vw, 440px);
+  margin-top: 8px;
 }
 
-/* "01" marker: HTML element (not a ::before) specifically so it can
-   carry aria-hidden itself; hidden below the 1024px desktop tier where
-   the asymmetric composition it anchors doesn't apply. Positioned
-   against .hero__media (not .hero__picture) so the picture's own
-   overflow: hidden — needed to clip the image to its rounded corners —
-   doesn't also clip the marker's negative offset. */
-.hero__marker {
-  display: none;
-}
-
+/* Absolutely filled (not a normal-flow child): with height:100% alone,
+   a portrait-cropped source image's intrinsic ratio would resolve to
+   'auto' against .hero__media's indeterminate height and drive the
+   grid row's height from the JPG's own proportions instead of from
+   real content + the configured minimum. inset:0 removes it from flow
+   entirely, so .hero__media's height comes only from grid stretch +
+   min-height. */
 .hero__picture {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: var(--radius-editorial-image);
-  overflow: hidden;
 }
 
 .hero__image {
@@ -725,6 +833,105 @@ body.is-menu-open {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.hero__media-line {
+  position: absolute;
+  left: 0;
+  top: 40%;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(250, 247, 240, 0.5);
+}
+
+/* "01" marker: hidden below the 1024px desktop tier where the
+   asymmetric composition it anchors doesn't apply. Positioned against
+   .hero__media (not .hero__picture), which never clips — this lets
+   the marker's negative top/left offset render outside the image box
+   instead of being clipped by it. */
+.hero__marker {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 640px;
+  }
+
+  .hero__content {
+    min-width: 0;
+  }
+
+  .hero__media {
+    width: auto;
+    height: auto;
+    margin-left: 56px;
+    margin-top: -48px;
+    min-height: 700px;
+  }
+
+  .hero__cta {
+    min-height: 52px;
+  }
+
+  .hero__marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: clamp(-26px, calc(-10px - 0.8333vw), -22px);
+    left: clamp(-26px, calc(-10px - 0.8333vw), -22px);
+    width: clamp(60px, calc(24px + 2.5vw), 72px);
+    height: clamp(60px, calc(24px + 2.5vw), 72px);
+    background-color: var(--color-terracotta);
+    color: var(--color-limestone);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    z-index: 3;
+    box-shadow: 0 6px 18px rgba(28, 46, 39, 0.25);
+  }
+}
+
+/* Hero — wide desktop (>=1440px): one continuous clamp(calc()) formula
+   per property, anchored to the 1024-1439px values below 1440px and to
+   the approved 1920px values from 1920px up — every value freezes
+   automatically at its clamp() bound beyond 1920px, so no separate
+   ">1920px" block is needed. See pixel-spec.md's transition table for
+   the exact anchor values. */
+@media (min-width: 1440px) {
+  .hero__grid {
+    grid-template-columns: clamp(600px, calc(240px + 25vw), 720px) 1fr;
+    min-height: clamp(640px, calc(280px + 25vw), 760px);
+  }
+
+  .hero__content {
+    padding-left: clamp(64px, calc(11.667vw - 104px), 120px);
+    padding-right: clamp(40px, calc(136px - 5vw), 64px);
+  }
+
+  .hero__media {
+    margin-left: clamp(56px, calc(32px + 1.667vw), 64px);
+    margin-top: clamp(-56px, calc(-24px - 1.667vw), -48px);
+    min-height: clamp(700px, calc(352px + 24.167vw), 816px);
+  }
+
+  /* H1 is deliberately wider than the paragraph/notice column (which
+     stays at the pixel-spec.md width above) and set slightly tighter —
+     matching the approved visual reference's line breaks ("Ritrovare /
+     fiducia nel / movimento, un / passo alla / volta.") rather than
+     wrapping one word per line early. Width stays inside the gap
+     before the photo's left edge (column width + image margin-left),
+     so it doesn't run under the image. */
+  .hero__title {
+    width: clamp(600px, calc(540px + 4.167vw), 620px);
+    letter-spacing: -0.04em;
+  }
 }
 
 /* Situations */
@@ -1493,120 +1700,6 @@ body.is-menu-open {
 }
 
 @media (min-width: 64em) {
-  /* 1024px — desktop navigation boundary, synced with main.js
-     (matchMedia) and the <noscript> fallback in <head>. */
-
-  .site-header__container {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-areas: "brand nav cta";
-    align-items: center;
-    column-gap: var(--space-lg);
-  }
-
-  .site-header__brand {
-    grid-area: brand;
-  }
-
-  .site-header__nav {
-    grid-area: nav;
-    min-width: 0;
-  }
-
-  .site-header__nav-list {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    /* Kept tighter than --space-lg on purpose: at exactly 1024px the
-       nav + CTA row has only ~2px of slack once loaded, so a wider
-       gap risks the pre-font-swap (fallback-font) row wrapping the
-       CTA onto a second line and then un-wrapping once Source Sans 3
-       loads — a large, measured CLS spike at this exact breakpoint. */
-    gap: var(--space-md);
-  }
-
-  .site-header__nav-link {
-    font-size: 0.9375rem;
-  }
-
-  .site-header__cta {
-    grid-area: cta;
-    width: auto;
-    max-width: none;
-  }
-
-  .site-header__container:has(.site-header__menu) {
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas: "brand menu";
-    row-gap: 0;
-  }
-
-  /* Browsers never paint a closed details' non-summary content, no
-     matter what CSS overrides it — so main.js keeps the menu genuinely
-     open (details.open = true) at this width and up; the HTML also
-     ships with the `open` attribute so navigation stays reachable
-     even with JavaScript disabled. */
-  .site-header__menu {
-    grid-area: menu;
-  }
-
-  .site-header__menu-toggle {
-    display: none;
-  }
-
-  .site-header__menu-panel {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    /* nowrap, not wrap: a computed-slack margin (however comfortable
-       today) is still an empirical guarantee, not a structural one —
-       it can vary with the fallback font stack across OS/browser
-       combinations. nowrap removes the second-row failure mode
-       entirely; the 1024–1119px sub-tier below exists specifically to
-       keep natural (unshrunk) content width inside the available
-       track at the tightest point, so nowrap never forces a shrink. */
-    flex-wrap: nowrap;
-    gap: var(--space-md);
-  }
-
-  .hero__container {
-    width: min(100% - 2 * var(--container-padding), var(--hero-max-width));
-    display: grid;
-    grid-template-columns: 5fr 7fr;
-    align-items: start;
-    gap: var(--space-xl);
-  }
-
-  .hero__content {
-    max-width: none;
-    padding-top: var(--space-lg);
-  }
-
-  .hero__media {
-    margin-top: -2rem;
-    aspect-ratio: 4 / 5;
-  }
-
-  /* Bridges the text/image seam the asymmetric composition creates;
-     purely decorative, so it's an aria-hidden element with no link
-     semantics and no effect on document flow (position: absolute). */
-  .hero__marker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: -1.375rem;
-    left: -1.375rem;
-    width: 3.75rem;
-    height: 3.75rem;
-    background-color: var(--color-terracotta);
-    color: var(--color-limestone);
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 0.8125rem;
-    letter-spacing: 0.03em;
-    z-index: 2;
-  }
-
   /* Stage 6B.2a correction: two-column editorial header, scoped to
      Situations only. Row 1 (eyebrow) leaves the right column empty;
      row 2 puts the title left / intro right, both starting on the
@@ -1956,19 +2049,5 @@ body.is-menu-open {
 @media (min-width: 75em) {
   .practical-info__list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 64em) and (max-width: 84.9375em) {
-  /* 1024px–1359px: lock Hero actions to a stacked layout so a font
-     swap can never change whether the two buttons share a row. The
-     narrower 5fr text column (stage 6B.1's asymmetric composition)
-     moved the natural wrap point to ~1250–1280px — right on top of
-     the required 1280px test width — so the locked range now clears
-     that with margin instead of ending at the old 1119px. */
-
-  .hero__actions {
-    flex-direction: column;
-    align-items: flex-start;
   }
 }

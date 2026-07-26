@@ -20,14 +20,6 @@
           overflow: visible;
         }
 
-        .site-header__menu[open] .site-header__menu-toggle-label--closed {
-          display: none;
-        }
-
-        .site-header__menu[open] .site-header__menu-toggle-label--open {
-          display: inline;
-        }
-
         .site-header__menu[open] .site-header__menu-icon {
           background-color: transparent;
         }
@@ -49,7 +41,7 @@
   <a class="skip-link" href="#main-content">Vai al contenuto principale</a>
 
   <header class="site-header">
-    <div class="site-header__container container">
+    <div class="site-header__container">
       <div class="site-header__brand">
         <p class="site-header__brand-name">Studio Movimento</p>
         <p class="site-header__brand-tagline">Fisioterapia a Potenza</p>
@@ -58,8 +50,8 @@
       <details class="site-header__menu" data-menu open>
         <summary class="site-header__menu-toggle" data-menu-toggle>
           <span class="site-header__menu-icon" aria-hidden="true"></span>
-          <span class="site-header__menu-toggle-label site-header__menu-toggle-label--closed">Menu</span>
-          <span class="site-header__menu-toggle-label site-header__menu-toggle-label--open">Chiudi</span>
+          <span class="site-header__menu-toggle-label site-header__menu-toggle-label--open-menu">Apri il menu</span>
+          <span class="site-header__menu-toggle-label site-header__menu-toggle-label--close-menu">Chiudi il menu</span>
         </summary>
 
         <div class="site-header__menu-panel" id="site-menu-panel" data-menu-panel>
@@ -73,7 +65,7 @@
             </ul>
           </nav>
 
-          <a class="site-header__cta button button--accent" href="#contatti">Richiedi una prima valutazione</a>
+          <a class="site-header__cta" href="#contatti">Richiedi una prima valutazione</a>
         </div>
       </details>
     </div>
@@ -81,8 +73,8 @@
 
   <main id="main-content" tabindex="-1">
 
-    <section class="hero section">
-      <div class="hero__container container">
+    <section class="hero">
+      <div class="hero__grid">
         <div class="hero__content">
           <p class="hero__eyebrow">Fisioterapia individuale a Potenza</p>
 
@@ -93,13 +85,13 @@
           <p class="hero__text">Ogni percorso parte dall’ascolto della persona, da una valutazione individuale e da obiettivi collegati alla vita di tutti i giorni.</p>
 
           <div class="hero__actions">
-            <a class="button button--accent" href="#contatti">Richiedi una prima valutazione</a>
-            <a class="button button--outline-dark" href="tel:+390000000000">Chiama lo studio</a>
+            <a class="hero__cta hero__cta--primary" href="#contatti">Richiedi una prima valutazione</a>
+            <a class="hero__cta hero__cta--secondary" href="tel:+390000000000">Chiama lo studio</a>
           </div>
 
           <p class="hero__meta">Solo su appuntamento · Potenza</p>
 
-          <p class="hero__notice notice">Studio Movimento è un concept project creato a scopo di portfolio. Lo studio e i contatti rappresentati nel sito non sono reali.</p>
+          <p class="hero__notice">Studio Movimento è un concept project creato a scopo di portfolio. Lo studio e i contatti rappresentati nel sito non sono reali.</p>
         </div>
 
         <div class="hero__media">
@@ -126,25 +118,25 @@
               media="(min-width: 1024px)"
               type="image/avif"
               srcset="assets/images/hero/hero-therapy-desktop-768.avif 768w, assets/images/hero/hero-therapy-desktop-1152.avif 1152w"
-              sizes="min(52vw, 747px)"
+              sizes="calc(66.4vw - 139px)"
             >
             <source
               media="(min-width: 1024px)"
               type="image/webp"
               srcset="assets/images/hero/hero-therapy-desktop-768.webp 768w, assets/images/hero/hero-therapy-desktop-1152.webp 1152w"
-              sizes="min(52vw, 747px)"
+              sizes="calc(66.4vw - 139px)"
             >
             <source
               media="(min-width: 1024px)"
               type="image/jpeg"
               srcset="assets/images/hero/hero-therapy-desktop-768.jpg 768w, assets/images/hero/hero-therapy-desktop-1152.jpg 1152w"
-              sizes="min(52vw, 747px)"
+              sizes="calc(66.4vw - 139px)"
             >
             <img
               class="hero__image"
               src="assets/images/hero/hero-therapy-desktop-1152.jpg"
               srcset="assets/images/hero/hero-therapy-desktop-768.jpg 768w, assets/images/hero/hero-therapy-desktop-1152.jpg 1152w"
-              sizes="min(52vw, 747px)"
+              sizes="calc(66.4vw - 139px)"
               alt="Persona che esegue un esercizio con una fascia elastica durante una sessione individuale."
               width="1152"
               height="1440"
