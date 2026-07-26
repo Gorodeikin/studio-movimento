@@ -253,19 +253,21 @@ p {
   font-size: 0.875rem;
 }
 
-/* Editorial direction (stage 6B.2/6B.R1): Situations/Services/Approach/
-   Specialist carry the terracotta eyebrow, scoped to just these
-   sections — First Visit/Practical/FAQ/Contact keep the brand-green
-   eyebrow above until their own redesign stage. */
+/* Editorial direction (stage 6B.2/6B.3): Situations/Services/Approach/
+   Specialist/First Visit/Practical Information carry the terracotta
+   eyebrow, scoped to just these sections — FAQ/Contact keep the
+   brand-green eyebrow above until their own redesign stage. */
 .situations .section-heading__eyebrow,
 .services .section-heading__eyebrow,
 .approach .section-heading__eyebrow,
-.specialist .section-heading__eyebrow {
+.specialist .section-heading__eyebrow,
+.first-visit .section-heading__eyebrow,
+.practical-info .section-heading__eyebrow {
   /* terracotta-hover, not terracotta: the Approach eyebrow sits on the
      sage background, where plain terracotta measures 4.46:1 — just
      under the 4.5:1 AA text minimum. terracotta-hover clears it
-     (6.6:1) on sage and on every other accepted section's lighter
-     background alike, so one color choice covers all of them safely. */
+     (6.6:1) on sage and on every other section's lighter background
+     alike, so one color choice covers all of them safely. */
   color: var(--color-terracotta-hover);
 }
 
@@ -972,39 +974,46 @@ body.is-menu-open {
 }
 
 /* First visit */
+/* Editorial timeline ("percorso in quattro passi"), not four cards: a
+   round terracotta number stands in for the old card badge, and at
+   768px+ the shared 2-column grid (below) already reads as a 2×2
+   route in DOM order. From 1024px the four steps become one row with
+   a single connecting line through steps 01/03 and 02/04 offset
+   below it (see the 64em rule below) — a proper editorial timeline
+   rather than a repeated per-step divider. */
+
+.first-visit {
+  background-color: var(--color-limestone);
+}
 
 .first-visit__list {
   display: grid;
-  gap: var(--space-md);
+  gap: var(--space-lg) var(--space-md);
   counter-reset: visit-step;
   margin-bottom: var(--space-lg);
 }
 
 .visit-step {
-  position: relative;
-  padding: var(--space-md);
-  padding-left: calc(var(--space-md) + 2.25rem);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-editorial);
   counter-increment: visit-step;
 }
 
 .visit-step::before {
-  content: counter(visit-step);
-  position: absolute;
-  left: var(--space-md);
-  top: var(--space-md);
-  display: inline-flex;
+  content: counter(visit-step, decimal-leading-zero);
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: var(--space-sm);
   border-radius: 50%;
-  background-color: var(--color-brand);
-  color: var(--color-surface);
+  background-color: var(--color-terracotta);
+  color: var(--color-limestone);
+  font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
 }
 
 .visit-step__title {
@@ -1012,29 +1021,27 @@ body.is-menu-open {
 }
 
 .visit-step__text + .visit-step__text {
-  margin-top: var(--space-2xs);
+  margin-top: 0;
 }
 
-@media (max-width: 47.9375em) {
-  /* Below 768px the steps stack in one column: thread a thin vertical
-     line through the numbered circles to read as a single sequence. */
-
-  .visit-step:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    left: calc(var(--space-md) + 0.875rem - 1px);
-    top: calc(var(--space-md) + 1.75rem);
-    bottom: calc(-1 * var(--space-md));
-    width: 2px;
-    background-color: var(--color-border);
-  }
+/* Larger, more assertive CTA than the shared .button--accent default —
+   local to First Visit so other .button--accent uses (Header/Hero)
+   are untouched. */
+.first-visit__cta {
+  min-height: 4.5rem;
+  padding-inline: var(--space-lg);
 }
 
 /* Practical info */
-/* A functional information panel, not another service-card grid: each
-   entry is a labelled field (left rule + uppercase label) rather than
-   a boxed card, so the section reads as data to scan, not offers to
-   compare. */
+/* Editorial information ledger, not five separate cards: a single
+   hairline-ruled list reads as one structured block. Four equal
+   entries (Sede, Modalità, Orari di contatto, Telefono+Email) share
+   the same top-rule treatment — see the 64em rule below for the
+   four-column desktop composition. */
+
+.practical-info {
+  background-color: var(--color-surface);
+}
 
 .practical-info__list {
   display: grid;
@@ -1043,8 +1050,8 @@ body.is-menu-open {
 }
 
 .info-card {
-  padding-left: var(--space-md);
-  border-left: 3px solid var(--color-brand);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-editorial);
 }
 
 .info-card__title {
@@ -1059,8 +1066,24 @@ body.is-menu-open {
 }
 
 .info-card__link {
+  color: var(--color-terracotta);
   font-weight: 600;
+  text-decoration: underline;
   word-break: break-word;
+}
+
+/* The merged phone + email entry: two label/value groups stacked in
+   one column instead of two separate list items. */
+.info-card--contacts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.info-card__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
 }
 
 .info-card__schedule-row {
@@ -1068,11 +1091,6 @@ body.is-menu-open {
   justify-content: space-between;
   gap: var(--space-sm);
   padding-block: var(--space-2xs);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.info-card__schedule-row:last-child {
-  border-bottom: none;
 }
 
 .info-card__schedule-day {
@@ -1082,6 +1100,18 @@ body.is-menu-open {
 .info-card__schedule-time {
   font-weight: 600;
   color: var(--color-text-primary);
+}
+
+/* Disclaimer sits below the list, left-aligned, not stretched full
+   width — a plain bordered note rather than the shared muted-fill
+   .notice look. */
+.practical-info__notice {
+  max-width: 32rem;
+  margin-top: var(--space-xl);
+  padding: var(--space-sm) var(--space-md);
+  background-color: transparent;
+  border: 1px solid var(--color-border-editorial);
+  border-radius: 0;
 }
 
 /* FAQ */
@@ -1428,10 +1458,6 @@ body.is-menu-open {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .practical-info__item:nth-child(3) {
-    grid-column: 1 / -1;
-  }
-
   .faq__list.faq--enhanced {
     grid-template-columns: 1fr;
     max-width: 46rem;
@@ -1713,25 +1739,83 @@ body.is-menu-open {
     margin-top: 2.25rem;
   }
 
+  /* Timeline: one hairline through steps 01/03; 02/04 sit 4rem lower
+     via margin (not `order`), so DOM order stays 01→04. The line's
+     top (1.25rem) is the vertical center of the 2.5rem circle on
+     01/03 — it passes through their circle, never through text. This
+     overrides the shared 48em 2-column rule above, so it must stay
+     after it in source order. */
+  .first-visit__cta {
+    width: fit-content;
+    min-width: 17.25rem;
+    margin-top: var(--space-xl);
+  }
+
+  /* Wider than the shared .container cap so the four text columns get
+     more room and their line breaks land closer to the approved
+     layout — First Visit-only, other sections keep the shared width. */
+  .first-visit__container {
+    width: min(100% - 2 * var(--container-padding), 81rem);
+  }
+
+  .first-visit__header {
+    max-width: 60rem;
+  }
+
+  .first-visit__header .section-heading__intro {
+    max-width: 32rem;
+  }
+
+  .first-visit__list {
+    position: relative;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+    margin-bottom: 0;
+  }
+
+  .first-visit__list::before {
+    content: "";
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    height: 1px;
+    background-color: var(--color-border-editorial);
+    z-index: 0;
+  }
+
+  .visit-step {
+    width: 100%;
+    max-width: none;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .visit-step::before {
+    position: relative;
+    z-index: 1;
+  }
+
+  .visit-step:nth-child(even) {
+    margin-top: 4rem;
+  }
+
+  /* Stage 6B.R3: a single-row, four-column ledger — header full-width
+     on top, all four entries equal width and top-aligned. No
+     grid-areas, no vertical dividers between columns. */
+  .practical-info__container {
+    display: block;
+  }
+
+  .practical-info__header {
+    max-width: none;
+    margin-bottom: var(--space-xl);
+  }
+
   .practical-info__list {
-    grid-template-columns: repeat(12, 1fr);
-  }
-
-  .practical-info__item:nth-child(1) {
-    grid-column: span 7;
-  }
-
-  .practical-info__item:nth-child(2) {
-    grid-column: span 5;
-  }
-
-  .practical-info__item:nth-child(3) {
-    grid-column: span 6;
-  }
-
-  .practical-info__item:nth-child(4),
-  .practical-info__item:nth-child(5) {
-    grid-column: span 3;
+    display: grid;
+    column-gap: var(--space-lg);
+    margin-bottom: 0;
   }
 
   /* Large photo left (spanning both rows), header + text right. No
@@ -1831,6 +1915,23 @@ body.is-menu-open {
 
   .site-footer__copyright {
     grid-area: copyright;
+  }
+}
+
+/* 1024px–1199px: two columns instead of four — at four equal columns
+   this range is too narrow for the schedule times and the email
+   address to fit without wrapping/breaking. */
+@media (min-width: 64em) and (max-width: 74.9375em) {
+  .practical-info__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+    row-gap: var(--space-xl);
+  }
+}
+
+@media (min-width: 75em) {
+  .practical-info__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
