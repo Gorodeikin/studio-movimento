@@ -62,17 +62,30 @@
 
   /* Sticky header scroll offset */
   --header-offset: 6.75rem;
+
+  /* Editorial direction (stage 6B.1) — "Doppia colonna, doppio ritmo".
+     Introduced for Header/Hero only; other sections keep the palette
+     above until their own redesign stage reaches them. */
+  --color-forest: #1c2e27;
+  --color-limestone: #faf7f0;
+  --color-terracotta: #a6491f;
+  --color-terracotta-hover: #7d3717;
+  --color-graphite: #2e3b36;
+  --color-graphite-muted: #45524c;
+  --color-sage: #dce3da;
+  --color-border-editorial: rgba(46, 59, 54, 0.16);
+  --focus-outline-editorial: 3px solid var(--color-terracotta);
+
+  --header-height: 4rem;
+  --hero-max-width: 90rem;
+  --radius-editorial-image: 0.125rem;
+  --radius-editorial-control: 0.125rem;
 }
 
-@media (min-width: 48em) {
+@media (min-width: 64em) {
   :root {
-    --header-offset: 11rem;
-  }
-}
-
-@media (min-width: 70em) {
-  :root {
-    --header-offset: 7.5rem;
+    --header-offset: 7rem;
+    --header-height: 4.5rem;
   }
 }
 
@@ -151,6 +164,15 @@ button {
   outline-offset: 3px;
 }
 
+/* Editorial direction (stage 6B.1): Header/Hero interactive elements use
+   the terracotta focus ring so it reads as part of the new palette,
+   rather than the older amber ring the rest of the page still uses. */
+.site-header :focus-visible,
+.hero :focus-visible {
+  outline: var(--focus-outline-editorial);
+  outline-offset: 3px;
+}
+
 /* ==========================================================================
    4. Typography
    ========================================================================== */
@@ -223,13 +245,23 @@ p {
   margin-bottom: var(--space-lg);
 }
 
-.section-heading__eyebrow,
-.hero__eyebrow {
+.section-heading__eyebrow {
   font-weight: 600;
   color: var(--color-brand);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 0.875rem;
+}
+
+/* Editorial direction (stage 6B.1): the Hero eyebrow takes the new
+   terracotta accent; other sections keep the older brand-green eyebrow
+   above until they're redesigned in a later stage. */
+.hero__eyebrow {
+  font-weight: 700;
+  color: var(--color-terracotta);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8125rem;
 }
 
 .section-heading__title {
@@ -285,6 +317,41 @@ p {
   background-color: var(--color-surface-muted);
   border-color: var(--color-brand-hover);
   color: var(--color-brand-hover);
+}
+
+/* Editorial direction (stage 6B.1) — terracotta/forest button treatment,
+   used only where the new Header/Hero already apply the new palette. */
+
+.button--accent {
+  background-color: var(--color-terracotta);
+  color: var(--color-limestone);
+  border-radius: var(--radius-editorial-control);
+}
+
+.button--accent:hover {
+  background-color: var(--color-terracotta-hover);
+  color: var(--color-limestone);
+}
+
+.button--accent:active {
+  background-color: var(--color-terracotta-hover);
+}
+
+.button--outline-dark {
+  background-color: transparent;
+  border-color: var(--color-forest);
+  color: var(--color-forest);
+  border-radius: var(--radius-editorial-control);
+}
+
+.button--outline-dark:hover {
+  background-color: rgba(28, 46, 39, 0.06);
+  color: var(--color-forest);
+}
+
+.button--outline-dark:active {
+  background-color: rgba(28, 46, 39, 0.1);
+  color: var(--color-forest);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -355,27 +422,29 @@ p {
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-limestone);
+  border-bottom: 1px solid var(--color-border-editorial);
 }
 
 .site-header__container {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-sm);
-  padding-block: var(--space-sm);
+  min-height: var(--header-height);
+  padding-block: var(--space-xs);
+  align-items: center;
 }
 
 .site-header__brand-name {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 1.375rem;
-  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  color: var(--color-forest);
   white-space: nowrap;
 }
 
 .site-header__brand-tagline {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 
@@ -391,18 +460,18 @@ p {
   justify-content: center;
   min-height: 2.75rem;
   text-decoration: none;
-  color: var(--color-text-primary);
+  color: var(--color-graphite);
   font-weight: 600;
   font-size: 0.9375rem;
   white-space: nowrap;
 }
 
 .site-header__nav-link:hover {
-  color: var(--color-brand);
+  color: var(--color-terracotta);
 }
 
 .site-header__nav-link:active {
-  color: var(--color-brand-hover);
+  color: var(--color-terracotta-hover);
 }
 
 .site-header__cta {
@@ -417,8 +486,11 @@ p {
    with JavaScript disabled; JS only layers ARIA sync, focus trap, Escape
    and scroll-lock on top of the built-in open/close behaviour. */
 
-@media (max-width: 47.9375em) {
-  /* This compact-row + overlay layout assumes main.js is managing
+@media (max-width: 63.9375em) {
+  /* Mobile/tablet compact header: toggle-driven menu up to 1023px,
+     matching the 1024px desktop-nav boundary synced with main.js
+     (matchMedia) and the <noscript> fallback in <head>.
+     This compact-row + overlay layout assumes main.js is managing
      open/close (scroll lock, Escape, resize reset). A <noscript>
      block in <head> restores a plain stacked/in-flow fallback when
      JS is unavailable, so the default here can stay unconditional —
@@ -518,7 +590,7 @@ body.is-menu-open .site-header__menu-icon::after {
   }
 }
 
-@media (max-width: 47.9375em) {
+@media (max-width: 63.9375em) {
   /* Without JS, the details ships open (see the HTML) so desktop
      navigation still works with scripting disabled. The <noscript>
      block in <head> turns this absolute overlay back into a plain
@@ -541,8 +613,8 @@ body.is-menu-open .site-header__menu-icon::after {
     flex-direction: column;
     gap: var(--space-lg);
     padding: var(--space-lg) var(--container-padding);
-    background-color: var(--color-surface);
-    border-top: 1px solid var(--color-border);
+    background-color: var(--color-limestone);
+    border-top: 1px solid var(--color-border-editorial);
   }
 
   /* Gated on the JS-driven body class, not the static `open`
@@ -577,8 +649,16 @@ body.is-menu-open {
   max-width: 42rem;
 }
 
+/* Editorial direction (stage 6B.1): a larger, tighter display scale for
+   the Hero H1 only — other headings keep the shared h1/h2/h3 rules
+   above until their sections are redesigned. */
 .hero__title {
   margin: 0;
+  max-width: 9.5em;
+  color: var(--color-forest);
+  font-size: clamp(2.375rem, 6vw, 5.5rem);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
 }
 
 .hero__actions {
@@ -598,17 +678,27 @@ body.is-menu-open {
 }
 
 .hero__media {
+  position: relative;
   margin-top: var(--space-lg);
   aspect-ratio: 4 / 3;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
+}
+
+/* "01" marker: HTML element (not a ::before) specifically so it can
+   carry aria-hidden itself; hidden below the 1024px desktop tier where
+   the asymmetric composition it anchors doesn't apply. Positioned
+   against .hero__media (not .hero__picture) so the picture's own
+   overflow: hidden — needed to clip the image to its rounded corners —
+   doesn't also clip the marker's negative offset. */
+.hero__marker {
+  display: none;
 }
 
 .hero__picture {
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: var(--radius-editorial-image);
+  overflow: hidden;
 }
 
 .hero__image {
@@ -1252,13 +1342,31 @@ body.is-menu-open {
     grid-column: 1 / -1;
   }
 
-  .site-header__container {
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "brand brand"
-      "nav   cta";
+  .faq__list.faq--enhanced {
+    grid-template-columns: 1fr;
+    max-width: 46rem;
+  }
+
+  /* The simpler Privacy-page footer (disclaimer + single return link,
+     no nav/contacts) gets a lightweight two-up row instead of the
+     fuller grid used where a footer nav is present. */
+  .site-footer__container:not(:has(.site-footer__nav)) {
+    flex-direction: row;
     align-items: center;
-    column-gap: var(--space-md);
+    justify-content: space-between;
+    gap: var(--space-lg);
+  }
+}
+
+@media (min-width: 64em) {
+  /* 1024px — desktop navigation boundary, synced with main.js
+     (matchMedia) and the <noscript> fallback in <head>. */
+
+  .site-header__container {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "brand nav cta";
+    align-items: center;
+    column-gap: var(--space-lg);
   }
 
   .site-header__brand {
@@ -1273,24 +1381,29 @@ body.is-menu-open {
   .site-header__nav-list {
     display: flex;
     flex-wrap: nowrap;
-    gap: var(--space-sm);
+    justify-content: flex-end;
+    /* Kept tighter than --space-lg on purpose: at exactly 1024px the
+       nav + CTA row has only ~2px of slack once loaded, so a wider
+       gap risks the pre-font-swap (fallback-font) row wrapping the
+       CTA onto a second line and then un-wrapping once Source Sans 3
+       loads — a large, measured CLS spike at this exact breakpoint. */
+    gap: var(--space-md);
   }
 
   .site-header__nav-link {
-    font-size: 1rem;
+    font-size: 0.9375rem;
   }
 
   .site-header__cta {
+    grid-area: cta;
     width: auto;
     max-width: none;
   }
 
   .site-header__container:has(.site-header__menu) {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "brand"
-      "menu";
-    row-gap: var(--space-sm);
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "brand menu";
+    row-gap: 0;
   }
 
   /* Browsers never paint a closed details' non-summary content, no
@@ -1309,39 +1422,55 @@ body.is-menu-open {
   .site-header__menu-panel {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    justify-content: flex-end;
+    /* nowrap, not wrap: a computed-slack margin (however comfortable
+       today) is still an empirical guarantee, not a structural one —
+       it can vary with the fallback font stack across OS/browser
+       combinations. nowrap removes the second-row failure mode
+       entirely; the 1024–1119px sub-tier below exists specifically to
+       keep natural (unshrunk) content width inside the available
+       track at the tightest point, so nowrap never forces a shrink. */
+    flex-wrap: nowrap;
     gap: var(--space-md);
   }
 
-  .faq__list.faq--enhanced {
-    grid-template-columns: 1fr;
-    max-width: 46rem;
-  }
-
-  /* The simpler Privacy-page footer (disclaimer + single return link,
-     no nav/contacts) gets a lightweight two-up row instead of the
-     fuller grid used where a footer nav is present. */
-  .site-footer__container:not(:has(.site-footer__nav)) {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-lg);
-  }
-}
-
-@media (min-width: 64em) {
-  /* 1024px */
-
   .hero__container {
+    width: min(100% - 2 * var(--container-padding), var(--hero-max-width));
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    align-items: center;
+    grid-template-columns: 5fr 7fr;
+    align-items: start;
     gap: var(--space-xl);
   }
 
+  .hero__content {
+    max-width: none;
+    padding-top: var(--space-lg);
+  }
+
   .hero__media {
+    margin-top: -2rem;
     aspect-ratio: 4 / 5;
+  }
+
+  /* Bridges the text/image seam the asymmetric composition creates;
+     purely decorative, so it's an aria-hidden element with no link
+     semantics and no effect on document flow (position: absolute). */
+  .hero__marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -1.375rem;
+    left: -1.375rem;
+    width: 3.75rem;
+    height: 3.75rem;
+    background-color: var(--color-terracotta);
+    color: var(--color-limestone);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.03em;
+    z-index: 2;
   }
 
   .situations__list {
@@ -1470,38 +1599,16 @@ body.is-menu-open {
   }
 }
 
-@media (min-width: 64em) and (max-width: 69.9375em) {
-  /* 1024px–1119px: lock Hero actions to a stacked layout so a font
-     swap can never change whether the two buttons share a row */
+@media (min-width: 64em) and (max-width: 84.9375em) {
+  /* 1024px–1359px: lock Hero actions to a stacked layout so a font
+     swap can never change whether the two buttons share a row. The
+     narrower 5fr text column (stage 6B.1's asymmetric composition)
+     moved the natural wrap point to ~1250–1280px — right on top of
+     the required 1280px test width — so the locked range now clears
+     that with margin instead of ending at the old 1119px. */
 
   .hero__actions {
     flex-direction: column;
     align-items: flex-start;
-  }
-}
-
-@media (min-width: 70em) {
-  /* 1120px: single-row desktop Header */
-
-  .site-header__container {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-areas: "brand nav cta";
-    column-gap: var(--space-lg);
-    padding-block: var(--space-md);
-  }
-
-  .site-header__nav-list {
-    justify-content: flex-end;
-    gap: var(--space-lg);
-  }
-
-  .site-header__container:has(.site-header__menu) {
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas: "brand menu";
-  }
-
-  .site-header__menu-panel {
-    justify-content: flex-end;
-    gap: var(--space-lg);
   }
 }

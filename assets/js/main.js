@@ -9,7 +9,7 @@
     var panel = menu.querySelector('[data-menu-panel]');
     if (!toggle || !panel || !panel.id) return;
 
-    var desktopQuery = window.matchMedia('(min-width: 48em)');
+    var desktopQuery = window.matchMedia('(min-width: 64em)');
 
     toggle.setAttribute('aria-controls', panel.id);
 
@@ -68,7 +68,7 @@
 
     /* Browsers never paint a closed details' non-summary content, so
        the desktop-persistent nav needs details.open genuinely true —
-       CSS alone cannot force it. Below 768px the native open/closed
+       CSS alone cannot force it. Below 1024px the native open/closed
        state is left to the user via the summary toggle. */
     function applyViewportState() {
       if (desktopQuery.matches) {
