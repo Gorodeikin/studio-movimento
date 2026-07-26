@@ -253,18 +253,19 @@ p {
   font-size: 0.875rem;
 }
 
-/* Editorial direction (stage 6B.2): Situations/Services/Approach now
-   carry the terracotta eyebrow too, scoped to just these sections —
-   Specialist/First Visit/Practical/FAQ/Contact keep the brand-green
+/* Editorial direction (stage 6B.2/6B.R1): Situations/Services/Approach/
+   Specialist carry the terracotta eyebrow, scoped to just these
+   sections — First Visit/Practical/FAQ/Contact keep the brand-green
    eyebrow above until their own redesign stage. */
 .situations .section-heading__eyebrow,
 .services .section-heading__eyebrow,
-.approach .section-heading__eyebrow {
+.approach .section-heading__eyebrow,
+.specialist .section-heading__eyebrow {
   /* terracotta-hover, not terracotta: the Approach eyebrow sits on the
-     new sage background, where plain terracotta measures 4.46:1 —
-     just under the 4.5:1 AA text minimum. terracotta-hover clears it
-     (6.6:1) on sage and on the other two sections' lighter backgrounds
-     alike, so one color choice covers all three safely. */
+     sage background, where plain terracotta measures 4.46:1 — just
+     under the 4.5:1 AA text minimum. terracotta-hover clears it
+     (6.6:1) on sage and on every other accepted section's lighter
+     background alike, so one color choice covers all of them safely. */
   color: var(--color-terracotta-hover);
 }
 
@@ -783,13 +784,11 @@ body.is-menu-open {
 }
 
 /* Services */
-/* Editorial direction (stage 6B.2): a numbered, top-ruled list rather
-   than four bordered card boxes — same family as Situations/Approach,
-   but its own rhythm comes from an alternating vertical offset at
-   desktop only (see the 64em rule below), not from card styling. The
-   offset is intentionally desktop-only: at tablet/mobile all four
-   entries sit flush, so the asymmetry simplifies away exactly where
-   the task requires. */
+/* Editorial direction (stage 6B.R1): a large, width-constrained
+   header top-left (see the 64em rule below) with significant open
+   space beside it, and a two-column list whose right column sits
+   lower than the left — an asymmetric composition, not a plain 2×2
+   grid. Each entry is a numbered, top-ruled row rather than a card. */
 
 .services {
   background-color: var(--color-surface);
@@ -803,7 +802,7 @@ body.is-menu-open {
 
 .service-card {
   padding-top: var(--space-md);
-  border-top: 1px solid var(--color-border-editorial);
+  border-top: 2px solid var(--color-forest);
 }
 
 .service-card__number {
@@ -824,28 +823,30 @@ body.is-menu-open {
   margin-top: var(--space-2xs);
 }
 
+/* Local look for the Services CTA — .button--outline-dark itself
+   stays untouched since Hero also uses it. */
+.services__cta {
+  width: fit-content;
+  min-height: 3.75rem;
+  padding-inline: 1.75rem;
+  margin-top: var(--space-lg);
+  background-color: var(--color-surface);
+  border-color: var(--color-forest);
+  border-radius: var(--radius-editorial-control);
+  color: var(--color-forest);
+}
+
 /* Approach */
-/* Editorial direction (stage 6B.2): the section label, heading, intro
-   text and the four principles now share a single column
-   (.approach__content) next to the photograph, instead of the photo
-   sitting as its own block above an unrelated four-card row below —
-   one composition rather than "heading / text / photo / four cards".
-   The principles reuse the numbered top-ruled list pattern from
-   Situations/Services, differentiated by living inside a narrower
-   text column beside the image rather than forming a grid of their
-   own. */
+/* Editorial direction (stage 6B.R1): photo on the left, header + the
+   four principles on the right (desktop grid below) — a light
+   limestone section, not another sage band. Each principle is one
+   horizontal row (number | title+text), not a stacked card. */
 
 .approach {
-  background-color: var(--color-sage);
+  background-color: var(--color-limestone);
 }
 
 .approach__grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.approach__content {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
@@ -875,17 +876,23 @@ body.is-menu-open {
 .approach__list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: 0;
 }
 
 .approach-card {
-  padding-top: var(--space-md);
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  column-gap: var(--space-sm);
+  row-gap: var(--space-2xs);
+  padding-block: var(--space-md);
   border-top: 1px solid var(--color-border-editorial);
 }
 
 .approach-card__number {
-  display: block;
-  margin-bottom: var(--space-xs);
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: start;
+  margin: 0;
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 0.9375rem;
@@ -894,18 +901,39 @@ body.is-menu-open {
 }
 
 .approach-card__title {
-  margin-bottom: var(--space-2xs);
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+
+.approach-card__text {
+  grid-column: 2;
+  grid-row: 2;
 }
 
 /* Specialist */
-/* Editorial two-column read at desktop (5/7 split, thin rule between);
-   a single flowing text column everywhere below that. */
+/* Editorial profile: a sage section where, at desktop (see the 64em
+   rule below), a large photo on the left spans the full height of
+   the header + text column on the right — not a bordered divider
+   between two flowing columns. */
+
+.specialist {
+  background-color: var(--color-sage);
+}
 
 .specialist__content {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
   max-width: 46rem;
+}
+
+/* Stage 6B.3: the opening line reads as a lead paragraph — slightly
+   larger than the two that follow — carrying the paragraph hierarchy
+   the task calls for without a new wrapper element. */
+.specialist__text:first-child {
+  font-size: 1.125rem;
+  line-height: 1.6;
 }
 
 .specialist__placeholder {
@@ -918,8 +946,7 @@ body.is-menu-open {
 .specialist__media {
   margin-top: var(--space-sm);
   aspect-ratio: 3 / 2;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-editorial-image);
   overflow: hidden;
 }
 
@@ -934,14 +961,14 @@ body.is-menu-open {
   object-fit: cover;
 }
 
-@media (min-width: 64em) {
-  .specialist__media {
-    aspect-ratio: 4 / 5;
-  }
-}
-
 .specialist__notice {
-  margin-top: var(--space-xs);
+  max-width: 27rem;
+  width: 100%;
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-limestone);
+  border: 1px solid var(--color-border-editorial);
+  border-radius: var(--radius-editorial-control);
 }
 
 /* First visit */
@@ -1609,23 +1636,73 @@ body.is-menu-open {
     grid-column: 7 / 11;
   }
 
-  .approach__grid {
-    display: grid;
-    grid-template-columns: 5fr 7fr;
-    align-items: stretch;
-    gap: var(--space-xl);
+  /* Text left (header + list), photo right, spanning both rows. */
+  .approach {
+    padding-block: var(--space-2xl);
   }
 
-  /* The fixed aspect-ratio is a mobile/tablet-only convenience (the
-     media is stacked there, so it needs its own proportions); at
-     desktop it sits beside the taller principles column, so it
-     stretches to match that column's height instead of leaving a gap
-     under a short, fixed-ratio image. object-fit: cover still crops
-     without distorting the photo itself. */
+  .approach__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas:
+      "header media"
+      "list   media";
+    column-gap: var(--space-xl);
+    row-gap: 0;
+    align-items: start;
+  }
+
+  .approach__header {
+    grid-area: header;
+    max-width: none;
+    margin-bottom: var(--space-lg);
+  }
+
+  .approach__header .section-heading__title {
+    font-size: clamp(2.75rem, 3.5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .approach__header .section-heading__intro {
+    max-width: 36rem;
+  }
+
   .approach__media {
-    aspect-ratio: unset;
-    height: 100%;
-    min-height: 26rem;
+    grid-area: media;
+    width: 100%;
+    max-width: 31rem;
+    aspect-ratio: 5 / 6;
+    justify-self: end;
+    align-self: center;
+  }
+
+  .approach__image {
+    object-position: 50% center;
+  }
+
+  .approach__list {
+    grid-area: list;
+  }
+
+  .approach-card {
+    padding-block: var(--space-xs);
+  }
+
+  /* Wide, width-constrained header with deliberate open space beside
+     it — not a full-width intro. */
+  .services__header {
+    max-width: 33rem;
+  }
+
+  .services__header .section-heading__title {
+    font-size: clamp(3rem, 4vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .services__list {
+    column-gap: var(--space-xl);
   }
 
   /* Controlled, alternating asymmetry — not a featured/priority signal:
@@ -1633,7 +1710,7 @@ body.is-menu-open {
      the second and fourth entries sit lower. Desktop-only, so the
      offset simplifies away at tablet/mobile as required. */
   .services__item:nth-child(2n) {
-    margin-top: var(--space-lg);
+    margin-top: 2.25rem;
   }
 
   .practical-info__list {
@@ -1657,17 +1734,41 @@ body.is-menu-open {
     grid-column: span 3;
   }
 
+  /* Large photo left (spanning both rows), header + text right. No
+     divider — the column-gap alone separates the two sides. */
   .specialist__container {
     display: grid;
-    grid-template-columns: 5fr 7fr;
-    gap: var(--space-xl);
+    grid-template-columns: minmax(0, 6fr) minmax(0, 7fr);
+    grid-template-areas:
+      "media header"
+      "media content";
+    column-gap: var(--space-xl);
     align-items: start;
   }
 
   .specialist__header {
-    margin-bottom: 0;
-    padding-right: var(--space-xl);
-    border-right: 1px solid var(--color-border);
+    grid-area: header;
+    margin-bottom: var(--space-lg);
+    max-width: none;
+    padding-right: 0;
+    border-right: none;
+  }
+
+  .specialist__header .section-heading__title {
+    font-size: clamp(3rem, 4vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .specialist__media {
+    grid-area: media;
+    margin-top: 0;
+    aspect-ratio: 3 / 4;
+  }
+
+  .specialist__content {
+    grid-area: content;
+    max-width: 34rem;
   }
 
   .contact__container {
