@@ -1156,6 +1156,35 @@ body.is-menu-open {
 
 .approach__header {
   margin-bottom: 0;
+  /* Text-wrap only, per dc.html: Approach's header/title carry no width
+     cap of their own — the shared .section-heading component's 46rem
+     cap would otherwise wrap the title narrower than the design at
+     tablet widths. Column position/width are untouched. */
+  max-width: none;
+}
+
+.approach__header .section-heading__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-terracotta);
+}
+
+.approach__header .section-heading__title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.04;
+  color: var(--color-forest);
+}
+
+.approach__header .section-heading__intro {
+  /* Text-wrap width only (dc.html: max-width 46ch on the intro
+     paragraph itself) — does not affect the header/column width. */
+  max-width: 46ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #45524c;
 }
 
 .approach__media {
@@ -1196,21 +1225,27 @@ body.is-menu-open {
   align-self: start;
   margin: 0;
   font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.9375rem;
-  letter-spacing: 0.02em;
-  color: var(--color-terracotta-hover);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--color-terracotta);
 }
 
 .approach-card__title {
   grid-column: 2;
   grid-row: 1;
   margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-forest);
 }
 
 .approach-card__text {
   grid-column: 2;
   grid-row: 2;
+  font-size: 15px;
+  line-height: 1.58;
+  color: #4a564f;
 }
 
 /* Specialist */
@@ -1861,16 +1896,6 @@ body.is-menu-open {
     grid-area: header;
     max-width: none;
     margin-bottom: var(--space-lg);
-  }
-
-  .approach__header .section-heading__title {
-    font-size: clamp(2.75rem, 3.5vw, 3.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-  }
-
-  .approach__header .section-heading__intro {
-    max-width: 36rem;
   }
 
   .approach__media {
