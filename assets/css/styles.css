@@ -1028,56 +1028,114 @@ body.is-menu-open {
 }
 
 /* Services */
-/* Editorial direction (stage 6B.R1): a large, width-constrained
-   header top-left (see the 64em rule below) with significant open
-   space beside it, and a two-column list whose right column sits
-   lower than the left — an asymmetric composition, not a plain 2×2
-   grid. Each entry is a numbered, top-ruled row rather than a card. */
+/* Self-contained pixel-first component per pixel-spec.md / dc.html — an
+   equal-weight matrix (all four entries share the same span, border and
+   type scale); only a subtle alternating vertical offset (even entries
+   sit lower) varies the rhythm, never implying priority. Single column
+   below 1024px (no intermediate tablet layout); 2x2 matrix at
+   1024px+ — see the 1024px block below. */
 
 .services {
+  padding: clamp(40px, 7vw, 88px) clamp(20px, 5vw, 64px);
   background-color: var(--color-surface);
+  border-top: 1px solid rgba(46, 59, 54, 0.1);
+  border-bottom: 1px solid rgba(46, 59, 54, 0.1);
+}
+
+.services__container {
+  max-width: 1220px;
+  margin-inline: auto;
+}
+
+/* Spacing between eyebrow/title/intro comes entirely from each child's
+   own margin below (matching dc.html's flat, margin-based structure) —
+   the shared .section-heading component's flex `gap` and `max-width`
+   are cancelled here so they don't stack on top of those margins. */
+.services__header {
+  gap: 0;
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.services__header .section-heading__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-terracotta);
+}
+
+.services__header .section-heading__title {
+  max-width: 16ch;
+  margin: 12px 0 16px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(30px, 4.5vw, 52px);
+  line-height: 1.02;
+  color: var(--color-forest);
+}
+
+.services__header .section-heading__intro {
+  max-width: 60ch;
+  margin: 0 0 clamp(20px, 4vw, 36px);
+  font-size: 17px;
+  line-height: 1.6;
+  color: #45524c;
 }
 
 .services__list {
-  display: grid;
-  gap: var(--space-md);
-  margin-bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .service-card {
-  padding-top: var(--space-md);
+  padding-top: 20px;
   border-top: 2px solid var(--color-forest);
 }
 
 .service-card__number {
   display: block;
-  margin-bottom: var(--space-xs);
   font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.9375rem;
-  letter-spacing: 0.02em;
-  color: var(--color-terracotta-hover);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--color-terracotta);
 }
 
 .service-card__title {
-  margin-bottom: var(--space-2xs);
-}
-
-.service-card__text + .service-card__text {
-  margin-top: var(--space-2xs);
-}
-
-/* Local look for the Services CTA — .button--outline-dark itself
-   stays untouched since Hero also uses it. */
-.services__cta {
-  width: fit-content;
-  min-height: 3.75rem;
-  padding-inline: 1.75rem;
-  margin-top: var(--space-lg);
-  background-color: var(--color-surface);
-  border-color: var(--color-forest);
-  border-radius: var(--radius-editorial-control);
+  margin: 14px 0 12px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(20px, 2.1vw, 23px);
+  line-height: 1.15;
   color: var(--color-forest);
+}
+
+.service-card__text {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.62;
+  color: #45524c;
+}
+
+.services__cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 14px 24px;
+  margin-top: clamp(32px, 5vw, 48px);
+  border: 1.5px solid var(--color-forest);
+  color: var(--color-forest);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.services__cta:hover {
+  background-color: rgba(28, 46, 39, 0.06);
+}
+
+.services__cta:active {
+  background-color: rgba(28, 46, 39, 0.1);
 }
 
 /* Approach */
@@ -1716,7 +1774,6 @@ body.is-menu-open {
 @media (min-width: 48em) {
   /* 768px */
 
-  .services__list,
   .first-visit__list,
   .practical-info__list {
     grid-template-columns: repeat(2, 1fr);
@@ -1837,20 +1894,17 @@ body.is-menu-open {
     padding-block: var(--space-xs);
   }
 
-  /* Wide, width-constrained header with deliberate open space beside
-     it — not a full-width intro. */
-  .services__header {
-    max-width: 33rem;
-  }
-
-  .services__header .section-heading__title {
-    font-size: clamp(3rem, 4vw, 3.75rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-  }
-
+  /* 2x2 equal-weight matrix: all four entries span 6 of 12 columns
+     (identical width/border/type scale) — never a plain symmetric grid,
+     since every even entry is nudged lower for rhythm. */
   .services__list {
-    column-gap: var(--space-xl);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 28px 24px;
+  }
+
+  .services__item {
+    grid-column: span 6;
   }
 
   /* Controlled, alternating asymmetry — not a featured/priority signal:
@@ -1858,7 +1912,7 @@ body.is-menu-open {
      the second and fourth entries sit lower. Desktop-only, so the
      offset simplifies away at tablet/mobile as required. */
   .services__item:nth-child(2n) {
-    margin-top: 2.25rem;
+    margin-top: 36px;
   }
 
   /* Timeline: one hairline through steps 01/03; 02/04 sit 4rem lower
