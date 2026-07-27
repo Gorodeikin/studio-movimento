@@ -1548,85 +1548,152 @@ body.is-menu-open {
 }
 
 /* Practical info */
-/* Editorial information ledger, not five separate cards: a single
-   hairline-ruled list reads as one structured block. Four equal
-   entries (Sede, Modalità, Orari di contatto, Telefono+Email) share
-   the same top-rule treatment — see the 64em rule below for the
-   four-column desktop composition. */
+/* Editorial ledger, not four filled/bordered cards: each entry starts
+   with the same hairline top rule and carries equal visual weight.
+   The phone/email entry stays one item so both demo contacts share a
+   single notice below. Columns: 1 below 768px, 2x2 from 768px, four
+   equal columns from 1200px — see the media queries below. */
 
 .practical-info {
+  padding: clamp(36px, 6vw, 72px) clamp(20px, 5vw, 64px);
   background-color: var(--color-surface);
+  border-top: 1px solid rgba(46, 59, 54, 0.1);
+  border-bottom: 1px solid rgba(46, 59, 54, 0.1);
+}
+
+.practical-info__container {
+  max-width: 1220px;
+  margin-inline: auto;
+}
+
+.practical-info__header {
+  gap: 0;
+  max-width: none;
+  margin-bottom: clamp(32px, 5vw, 48px);
+}
+
+.practical-info__header .section-heading__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-terracotta);
+}
+
+.practical-info__header .section-heading__title {
+  margin: 12px 0 0;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(30px, 4.5vw, 52px);
+  line-height: 1.02;
+  color: var(--color-forest);
 }
 
 .practical-info__list {
   display: grid;
-  gap: var(--space-lg) var(--space-md);
-  margin-bottom: var(--space-lg);
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-bottom: clamp(32px, 5vw, 48px);
 }
 
 .info-card {
-  padding-top: var(--space-md);
-  border-top: 1px solid var(--color-border-editorial);
+  padding-top: 16px;
+  border-top: 1px solid rgba(46, 59, 54, 0.18);
 }
 
 .info-card__title {
-  margin-bottom: var(--space-2xs);
-  font-size: 0.9375rem;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  color: #6b7770;
+}
+
+.info-card__text {
+  margin: 8px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-forest);
 }
 
 .info-card__text + .info-card__text {
-  margin-top: var(--space-2xs);
+  margin-top: 6px;
+  font-size: 14.5px;
+  font-weight: 400;
+  color: #4a564f;
 }
 
-.info-card__link {
-  color: var(--color-terracotta);
-  font-weight: 600;
-  text-decoration: underline;
-  word-break: break-word;
-}
-
-/* The merged phone + email entry: two label/value groups stacked in
-   one column instead of two separate list items. */
-.info-card--contacts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.info-card__group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
+.info-card__schedule {
+  margin: 10px 0 0;
 }
 
 .info-card__schedule-row {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-sm);
-  padding-block: var(--space-2xs);
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #33403a;
+}
+
+.info-card__schedule-row:last-child {
+  margin-bottom: 0;
 }
 
 .info-card__schedule-day {
-  color: var(--color-text-secondary);
+  font-weight: 400;
 }
 
 .info-card__schedule-time {
-  font-weight: 600;
-  color: var(--color-text-primary);
+  font-weight: 700;
 }
 
-/* Disclaimer sits below the list, left-aligned, not stretched full
-   width — a plain bordered note rather than the shared muted-fill
-   .notice look. */
+/* The merged phone + email entry: two label/value groups stacked in
+   one column instead of two separate list items. */
+.info-card--contacts .info-card__group + .info-card__group {
+  margin-top: 16px;
+}
+
+.info-card--contacts .info-card__text {
+  margin-top: 8px;
+}
+
+.info-card__link {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-forest);
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+/* Disclaimer sits below the list, left-aligned within a measured
+   line length — a plain bordered note, not the shared muted-fill
+   .notice look, so it stays visually secondary but readable. */
 .practical-info__notice {
-  max-width: 32rem;
-  margin-top: var(--space-xl);
-  padding: var(--space-sm) var(--space-md);
+  max-width: 70ch;
+  margin: 0;
+  padding: 16px 20px;
   background-color: transparent;
-  border: 1px solid var(--color-border-editorial);
+  border: 1px solid rgba(46, 59, 54, 0.18);
   border-radius: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #6b7770;
+}
+
+@media (min-width: 768px) {
+  .practical-info__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 40px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .practical-info__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: 32px;
+  }
 }
 
 /* FAQ */
@@ -1989,10 +2056,6 @@ body.is-menu-open {
 @media (min-width: 48em) {
   /* 768px */
 
-  .practical-info__list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   /* The simpler Privacy-page footer (disclaimer + single return link,
      no nav/contacts) gets a lightweight two-up row instead of the
      fuller grid used where a footer nav is present. */
@@ -2119,24 +2182,6 @@ body.is-menu-open {
     margin-top: 36px;
   }
 
-  /* Stage 6B.R3: a single-row, four-column ledger — header full-width
-     on top, all four entries equal width and top-aligned. No
-     grid-areas, no vertical dividers between columns. */
-  .practical-info__container {
-    display: block;
-  }
-
-  .practical-info__header {
-    max-width: none;
-    margin-bottom: var(--space-xl);
-  }
-
-  .practical-info__list {
-    display: grid;
-    column-gap: var(--space-lg);
-    margin-bottom: 0;
-  }
-
   /* Single centered column, narrower than the shared .container, so
      the accordion rows don't stretch full-bleed on wide viewports. */
   .faq__container {
@@ -2235,22 +2280,5 @@ body.is-menu-open {
 
   .site-footer__copyright {
     grid-area: copyright;
-  }
-}
-
-/* 1024px–1199px: two columns instead of four — at four equal columns
-   this range is too narrow for the schedule times and the email
-   address to fit without wrapping/breaking. */
-@media (min-width: 64em) and (max-width: 74.9375em) {
-  .practical-info__list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--space-lg);
-    row-gap: var(--space-xl);
-  }
-}
-
-@media (min-width: 75em) {
-  .practical-info__list {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
