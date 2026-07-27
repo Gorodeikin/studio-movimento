@@ -553,16 +553,14 @@
       </div>
     </section>
 
-    <section class="contact section" id="contatti">
-      <div class="contact__container container">
+    <section class="contact" id="contatti">
+      <div class="contact__container">
         <header class="contact__header section-heading">
           <p class="section-heading__eyebrow">Contatti</p>
           <h2 class="section-heading__title">Richiedi una prima valutazione</h2>
           <p class="section-heading__intro">Utilizza il modulo per indicare come preferisci essere contattato. Non inserire diagnosi, referti o altre informazioni sanitarie.</p>
           <p class="section-heading__intro">L’invio del modulo non conferma un appuntamento e non sostituisce una consulenza medica.</p>
         </header>
-
-        <p class="contact__notice notice">Questo modulo funziona esclusivamente in modalità dimostrativa. I dati inseriti non vengono trasmessi né salvati.</p>
 
         <form class="contact-form" data-contact-form>
           <div class="contact-form__field form-field">
@@ -585,30 +583,32 @@
           <fieldset class="contact-form__fieldset form-field" aria-describedby="contact-preference-error">
             <legend class="form-field__legend">Come preferisci essere contattato?</legend>
 
-            <div class="contact-form__radio-item">
-              <input
-                class="contact-form__radio-input"
-                type="radio"
-                id="contact-preference-email"
-                name="contact-preference"
-                value="email"
-                required
-                data-contact-method
-              >
-              <label class="contact-form__radio-label" for="contact-preference-email">Email</label>
-            </div>
+            <div class="contact-form__radio-group">
+              <div class="contact-form__radio-item">
+                <input
+                  class="contact-form__radio-input"
+                  type="radio"
+                  id="contact-preference-email"
+                  name="contact-preference"
+                  value="email"
+                  required
+                  data-contact-method
+                >
+                <label class="contact-form__radio-label" for="contact-preference-email">Email</label>
+              </div>
 
-            <div class="contact-form__radio-item">
-              <input
-                class="contact-form__radio-input"
-                type="radio"
-                id="contact-preference-phone"
-                name="contact-preference"
-                value="telefono"
-                required
-                data-contact-method
-              >
-              <label class="contact-form__radio-label" for="contact-preference-phone">Telefono</label>
+              <div class="contact-form__radio-item">
+                <input
+                  class="contact-form__radio-input"
+                  type="radio"
+                  id="contact-preference-phone"
+                  name="contact-preference"
+                  value="telefono"
+                  required
+                  data-contact-method
+                >
+                <label class="contact-form__radio-label" for="contact-preference-phone">Telefono</label>
+              </div>
             </div>
 
             <p class="form-field__error" id="contact-preference-error" data-field-error hidden></p>
@@ -653,6 +653,8 @@
             </select>
           </div>
 
+          <p class="contact-form__notice">Questo modulo funziona esclusivamente in modalità dimostrativa. I dati inseriti non vengono trasmessi né salvati.</p>
+
           <div class="contact-form__field contact-form__field--checkbox form-field">
             <input
               class="contact-form__checkbox-input"
@@ -669,7 +671,7 @@
           </div>
 
           <div class="contact-form__actions">
-            <button class="contact-form__submit button button--primary" type="button" data-form-submit>Invia la richiesta</button>
+            <button class="contact-form__submit" type="button" data-form-submit>Invia la richiesta</button>
           </div>
 
           <p class="contact-form__status" data-form-status tabindex="-1" role="status" aria-live="polite" hidden></p>

@@ -377,44 +377,56 @@ p {
 }
 
 /* Form field */
+/* Self-contained pixel-first fields, used only by the Contact form. */
 
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
-  margin-bottom: var(--space-md);
+  gap: 8px;
 }
 
 .form-field__label {
-  font-weight: 600;
-  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-forest);
 }
 
 .form-field__legend {
-  font-weight: 600;
-  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-forest);
   padding: 0;
 }
 
 .form-field__input,
 .form-field__select {
-  min-height: var(--control-min-height);
-  padding-inline: var(--space-sm);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-control-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-primary);
+  min-height: 44px;
+  padding: 13px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--color-forest);
+  background-color: #fff;
+  border: 1.5px solid rgba(46, 59, 54, 0.3);
+  border-radius: 0;
 }
 
 .form-field__input:focus-visible,
 .form-field__select:focus-visible {
-  outline: var(--focus-outline);
+  outline: var(--focus-outline-editorial);
   outline-offset: 2px;
 }
 
 .form-field__label--checkbox {
   font-weight: 400;
-  color: var(--color-text-secondary);
+  font-size: 14px;
+  color: var(--color-graphite);
+}
+
+.form-field__label--checkbox a {
+  color: inherit;
+  text-decoration: underline;
 }
 
 /* ==========================================================================
@@ -1800,86 +1812,168 @@ body.is-menu-open {
 }
 
 /* Contact */
+/* The site's one full-bleed dark panel: forest background, cream
+   heading, a light form card floating on top. Self-contained
+   pixel-first component — own container, own field styling (the
+   shared .form-field* rules above exist only for this form). */
 
-.contact__notice {
-  margin-bottom: var(--space-lg);
+.contact {
+  padding: clamp(40px, 7vw, 88px) clamp(20px, 5vw, 64px) clamp(32px, 5vw, 56px);
+  background-color: var(--color-forest);
+}
+
+.contact__container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1220px;
+  margin-inline: auto;
+}
+
+.contact__header {
+  gap: 0;
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.contact__header .section-heading__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #c98a5f;
+}
+
+.contact__header .section-heading__title {
+  margin: 14px 0 20px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 1.02;
+  color: var(--color-limestone);
+}
+
+.contact__header .section-heading__intro {
+  max-width: 44ch;
+  margin: 0 0 14px;
+  font-size: 16.5px;
+  line-height: 1.62;
+  color: #cdd6cf;
+}
+
+.contact__header .section-heading__intro:last-child {
+  margin-bottom: 0;
 }
 
 .contact-form {
-  max-width: 34rem;
-  padding: var(--space-lg);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: var(--color-limestone);
+  padding: clamp(24px, 3vw, 36px);
 }
 
 .contact-form__fieldset {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
   border: none;
 }
 
-.contact-form__fieldset .form-field__legend {
-  grid-column: 1 / -1;
-}
-
-.contact-form__fieldset .form-field__error {
-  grid-column: 1 / -1;
-  margin-top: var(--space-2xs);
+.contact-form__radio-group {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
 }
 
 .contact-form__radio-item {
   display: flex;
   align-items: center;
-  gap: var(--space-2xs);
-  min-height: 2.75rem;
+  gap: 8px;
+  min-height: 44px;
 }
 
 .contact-form__radio-input {
-  width: 1.25rem;
-  height: 1.25rem;
-  accent-color: var(--color-brand);
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-terracotta);
 }
 
-/* Email and phone follow the contact-preference fieldset directly and
-   are pulled slightly closer together than the surrounding fields, so
-   proximity alone signals that they belong to the same choice. */
-.contact-form__field:has(> .form-field__input[type="email"]) {
-  margin-bottom: var(--space-2xs);
+.contact-form__radio-label {
+  font-size: 15px;
+  color: var(--color-graphite);
+  cursor: pointer;
+}
+
+.contact-form__notice {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(46, 59, 54, 0.2);
+  background-color: rgba(220, 227, 218, 0.4);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #4a564f;
 }
 
 .contact-form__field--checkbox {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--space-xs);
+  gap: 10px;
+}
+
+.form-field__label--checkbox {
+  cursor: pointer;
 }
 
 /* Forces the error message (a later flex item) onto its own row below
    the checkbox + label, instead of squeezing beside them. */
 .contact-form__field--checkbox .form-field__error {
   flex-basis: 100%;
-  margin-left: calc(1.25rem + var(--space-xs));
+  margin-left: 28px;
 }
 
 .contact-form__checkbox-input {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
-  margin-top: 0.2em;
-  accent-color: var(--color-brand);
+  margin-top: 2px;
+  accent-color: var(--color-terracotta);
 }
 
 .contact-form__actions {
-  margin-top: var(--space-md);
+  margin-top: 0;
 }
 
 .contact-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  min-height: 44px;
+  padding: 16px 28px;
+  background-color: var(--color-terracotta);
+  color: var(--color-limestone);
+  border: none;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.contact-form__submit:hover:not(:disabled) {
+  background-color: var(--color-terracotta-hover);
+}
+
+.contact-form__submit:disabled {
+  background-color: #b78a6f;
+  cursor: not-allowed;
 }
 
 .contact-form--loading .contact-form__submit {
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
@@ -1892,8 +1986,8 @@ body.is-menu-open {
 }
 
 .form-field__error {
+  font-size: 13.5px;
   color: var(--color-error);
-  font-size: 0.875rem;
 }
 
 .form-field--invalid .form-field__input,
@@ -1905,29 +1999,37 @@ body.is-menu-open {
 }
 
 .contact-form__status {
-  margin-top: var(--space-md);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 0.9375rem;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(46, 59, 54, 0.2);
+  font-size: 14.5px;
+  line-height: 1.5;
 }
 
 .contact-form__status--success {
-  background-color: var(--color-surface-muted);
-  border-color: var(--color-success);
-  color: var(--color-success);
+  background-color: rgba(220, 227, 218, 0.4);
+  border-color: var(--color-forest);
+  color: var(--color-forest);
 }
 
 .contact-form__status--error {
-  background-color: var(--color-surface-muted);
+  background-color: rgba(164, 58, 58, 0.08);
   border-color: var(--color-error);
   color: var(--color-error);
 }
 
-@media (min-width: 48em) {
+@media (min-width: 768px) {
   .contact-form__submit {
     width: auto;
-    min-width: 14rem;
+    min-width: 224px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contact__container {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
   }
 }
 
@@ -2201,33 +2303,6 @@ body.is-menu-open {
 
   .specialist__content {
     grid-area: content;
-  }
-
-  .contact__container {
-    display: grid;
-    grid-template-columns: 5fr 7fr;
-    grid-template-rows: max-content max-content 1fr;
-    grid-template-areas:
-      "intro  form"
-      "notice form"
-      ".      form";
-    column-gap: var(--space-xl);
-    row-gap: var(--space-lg);
-    align-items: start;
-  }
-
-  .contact__header {
-    grid-area: intro;
-    margin-bottom: 0;
-  }
-
-  .contact__notice {
-    grid-area: notice;
-    margin-bottom: 0;
-  }
-
-  .contact-form {
-    grid-area: form;
   }
 
   .site-footer__container:has(.site-footer__nav) {
