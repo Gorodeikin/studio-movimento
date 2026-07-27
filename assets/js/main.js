@@ -87,57 +87,6 @@
     syncState();
   }
 
-  function initFaqAccordion() {
-    var list = document.querySelector('[data-faq-list]');
-    if (!list) return;
-
-    var items = Array.prototype.slice.call(list.querySelectorAll('[data-faq-item]'));
-    if (!items.length) return;
-
-    items.forEach(function (item, index) {
-      var question = item.querySelector('[data-faq-question]');
-      var answer = item.querySelector('[data-faq-answer]');
-      if (!question || !answer) return;
-
-      var answerId = 'faq-answer-' + (index + 1);
-      answer.id = answerId;
-
-      var button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'faq-item__button';
-      button.textContent = question.textContent.trim();
-      button.setAttribute('aria-controls', answerId);
-
-      var icon = document.createElement('span');
-      icon.className = 'faq-item__icon';
-      icon.setAttribute('aria-hidden', 'true');
-      button.appendChild(icon);
-
-      question.textContent = '';
-      question.appendChild(button);
-
-      var isFirst = index === 0;
-      button.setAttribute('aria-expanded', String(isFirst));
-      if (isFirst) {
-        answer.removeAttribute('hidden');
-      } else {
-        answer.setAttribute('hidden', '');
-      }
-
-      button.addEventListener('click', function () {
-        var expanded = button.getAttribute('aria-expanded') === 'true';
-        button.setAttribute('aria-expanded', String(!expanded));
-        if (expanded) {
-          answer.setAttribute('hidden', '');
-        } else {
-          answer.removeAttribute('hidden');
-        }
-      });
-    });
-
-    list.classList.add('faq--enhanced');
-  }
-
   function initContactForm() {
     var form = document.querySelector('[data-contact-form]');
     if (!form) return;
@@ -393,6 +342,5 @@
   }
 
   initMobileMenu();
-  initFaqAccordion();
   initContactForm();
 })();
