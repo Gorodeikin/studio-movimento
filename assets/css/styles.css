@@ -1249,41 +1249,74 @@ body.is-menu-open {
 }
 
 /* Specialist */
-/* Editorial profile: a sage section where, at desktop (see the 64em
-   rule below), a large photo on the left spans the full height of
-   the header + text column on the right — not a bordered divider
-   between two flowing columns. */
+/* Self-contained pixel-first component per pixel-spec.md / dc.html — a
+   full-bleed sage section (background on the outer section, content
+   inset via the inner container's own padding) with the approved photo
+   pulled off-grid at desktop (see the 1024px block below), not a
+   bordered divider between two flowing columns. */
 
 .specialist {
+  padding: clamp(40px, 7vw, 88px) 0;
   background-color: var(--color-sage);
 }
 
-.specialist__content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  max-width: 46rem;
+.specialist__container {
+  max-width: 1220px;
+  margin-inline: auto;
+  padding: 0 clamp(20px, 5vw, 64px);
 }
 
-/* Stage 6B.3: the opening line reads as a lead paragraph — slightly
-   larger than the two that follow — carrying the paragraph hierarchy
-   the task calls for without a new wrapper element. */
-.specialist__text:first-child {
-  font-size: 1.125rem;
-  line-height: 1.6;
+/* Mobile/tablet: header, image and content stack in natural document
+   order with a uniform gap — matches dc.html's flex-column gap:28px
+   without needing display:flex (all three are already block-level). */
+.specialist__container > * + * {
+  margin-top: 28px;
+}
+
+.specialist__header {
+  gap: 0;
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.specialist__header .section-heading__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-terracotta);
+}
+
+.specialist__header .section-heading__title {
+  margin: 12px 0 24px;
+  max-width: 12ch;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(30px, 4.5vw, 52px);
+  line-height: 1.03;
+  color: var(--color-forest);
+}
+
+.specialist__content {
+  max-width: 52ch;
+}
+
+.specialist__text {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.62;
+  color: #33403a;
+}
+
+.specialist__text + .specialist__text {
+  margin-top: 16px;
 }
 
 .specialist__placeholder {
-  display: inline-block;
-  margin-inline-end: 0.25em;
   font-style: italic;
-  color: var(--color-text-secondary);
 }
 
 .specialist__media {
-  margin-top: var(--space-sm);
-  aspect-ratio: 3 / 2;
-  border-radius: var(--radius-editorial-image);
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
@@ -1299,13 +1332,14 @@ body.is-menu-open {
 }
 
 .specialist__notice {
-  max-width: 27rem;
-  width: 100%;
-  margin-top: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-limestone);
-  border: 1px solid var(--color-border-editorial);
-  border-radius: var(--radius-editorial-control);
+  max-width: 52ch;
+  margin-top: 24px;
+  padding: 16px 20px;
+  border: 1px solid rgba(46, 59, 54, 0.25);
+  background-color: rgba(250, 247, 240, 0.5);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #4a564f;
 }
 
 /* First visit */
@@ -2026,40 +2060,35 @@ body.is-menu-open {
   }
 
   /* Large photo left (spanning both rows), header + text right. No
-     divider — the column-gap alone separates the two sides. */
+     divider — the column-gap alone separates the two sides; the photo
+     is pulled off-grid (margin-left) so it bleeds slightly past the
+     container's left edge. */
   .specialist__container {
     display: grid;
-    grid-template-columns: minmax(0, 6fr) minmax(0, 7fr);
+    grid-template-columns: 5fr 7fr;
     grid-template-areas:
       "media header"
       "media content";
-    column-gap: var(--space-xl);
-    align-items: start;
+    column-gap: 56px;
+    align-items: center;
+  }
+
+  .specialist__container > * + * {
+    margin-top: 0;
   }
 
   .specialist__header {
     grid-area: header;
-    margin-bottom: var(--space-lg);
-    max-width: none;
-    padding-right: 0;
-    border-right: none;
-  }
-
-  .specialist__header .section-heading__title {
-    font-size: clamp(3rem, 4vw, 3.75rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
   }
 
   .specialist__media {
     grid-area: media;
-    margin-top: 0;
     aspect-ratio: 3 / 4;
+    margin-left: -40px;
   }
 
   .specialist__content {
     grid-area: content;
-    max-width: 34rem;
   }
 
   .contact__container {
