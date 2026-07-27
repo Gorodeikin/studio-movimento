@@ -2034,6 +2034,13 @@ body.is-menu-open {
 }
 
 /* Site footer */
+/* .site-footer is shared with privacy.html's simpler disclaimer+link
+   footer (no nav/brand/contacts there), so its own light-theme base
+   rule, .site-footer__link's base color, and the mobile tap-target
+   rule below are left untouched — privacy.html must render unchanged.
+   Everything specific to the full site footer (dark panel matching
+   Contact, brand/nav/contacts columns) is scoped with
+   :has(.site-footer__nav), which only ever matches on index.html. */
 
 .site-footer {
   padding-block: var(--space-xl);
@@ -2047,20 +2054,54 @@ body.is-menu-open {
   gap: var(--space-md);
 }
 
+/* Full footer: one continuous dark panel with Contact above it — same
+   background, no margin-top of its own, so there is no light seam;
+   the hairline border sits exactly at the Contact/Footer boundary. */
+.site-footer:has(.site-footer__nav) {
+  padding: clamp(40px, 6vw, 56px) clamp(20px, 5vw, 64px) clamp(32px, 5vw, 56px);
+  background-color: var(--color-forest);
+  border-top: 1px solid rgba(250, 247, 240, 0.15);
+}
+
+.site-footer:has(.site-footer__nav) .site-footer__container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 1220px;
+  margin-inline: auto;
+}
+
 .site-footer__brand-name {
   font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.125rem;
-  color: var(--color-text-primary);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--color-limestone);
+}
+
+.site-footer__brand .site-footer__text {
+  max-width: 32ch;
+  margin: 10px 0 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #b9c3ba;
 }
 
 .site-footer__nav-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm) var(--space-md);
+  flex-direction: column;
+  gap: 10px;
 }
 
-.site-footer__nav-link,
+.site-footer__nav-link {
+  font-size: 14.5px;
+  color: #dfe5df;
+  text-decoration: none;
+}
+
+.site-footer__nav-link:hover {
+  color: var(--color-limestone);
+}
+
 .site-footer__link {
   color: var(--color-text-primary);
   text-decoration: underline;
@@ -2069,7 +2110,6 @@ body.is-menu-open {
   word-break: break-word;
 }
 
-.site-footer__nav-link:hover,
 .site-footer__link:hover {
   color: var(--color-brand);
   text-decoration-color: currentColor;
@@ -2089,12 +2129,72 @@ body.is-menu-open {
 .site-footer__contacts {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: 10px;
+}
+
+.site-footer__contacts .site-footer__text {
+  margin: 0;
+}
+
+.site-footer__contacts .site-footer__link {
+  font-size: 14.5px;
+  color: #dfe5df;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.site-footer__contacts .site-footer__link:hover {
+  color: var(--color-limestone);
+}
+
+.site-footer:has(.site-footer__nav) .site-footer__disclaimer {
+  padding: 16px 20px;
+  background-color: transparent;
+  border: 1px solid rgba(250, 247, 240, 0.2);
+  border-radius: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #a8b2a9;
 }
 
 .site-footer__copyright {
-  color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  margin: 20px 0 0;
+  font-size: 13px;
+  color: #8b968c;
+}
+
+@media (min-width: 1024px) {
+  .site-footer:has(.site-footer__nav) .site-footer__container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-areas:
+      "brand nav contacts"
+      "disclaimer disclaimer disclaimer"
+      "copyright copyright copyright";
+    column-gap: 32px;
+    row-gap: 28px;
+  }
+
+  .site-footer__brand {
+    grid-area: brand;
+  }
+
+  .site-footer__nav {
+    grid-area: nav;
+  }
+
+  .site-footer__contacts {
+    grid-area: contacts;
+  }
+
+  .site-footer__disclaimer {
+    grid-area: disclaimer;
+  }
+
+  .site-footer__copyright {
+    grid-area: copyright;
+    margin-top: 0;
+  }
 }
 
 /* Legal (privacy page) */
@@ -2303,40 +2403,5 @@ body.is-menu-open {
 
   .specialist__content {
     grid-area: content;
-  }
-
-  .site-footer__container:has(.site-footer__nav) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas:
-      "brand nav contacts"
-      "disclaimer disclaimer disclaimer"
-      "copyright copyright copyright";
-    column-gap: var(--space-xl);
-    row-gap: var(--space-lg);
-  }
-
-  .site-footer__brand {
-    grid-area: brand;
-  }
-
-  .site-footer__nav {
-    grid-area: nav;
-  }
-
-  .site-footer__nav-list {
-    flex-direction: column;
-  }
-
-  .site-footer__contacts {
-    grid-area: contacts;
-  }
-
-  .site-footer__disclaimer {
-    grid-area: disclaimer;
-  }
-
-  .site-footer__copyright {
-    grid-area: copyright;
   }
 }
