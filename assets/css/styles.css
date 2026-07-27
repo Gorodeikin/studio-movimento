@@ -1697,117 +1697,106 @@ body.is-menu-open {
 }
 
 /* FAQ */
-/* Editorial accordion: one continuous top-ruled list, not soft
-   background panels — each question is a full-width row, and its
-   answer sits directly beneath with no separate fill, border or
-   radius of its own. The no-JS fallback (plain .faq-item__question
-   text, answers always visible) reuses the same row styling so both
-   states read as the same list. */
+/* Native details/summary accordion — no JavaScript required. Each
+   question is a full-width <summary> row (default marker hidden,
+   accessible name/keyboard behaviour untouched); the +/- glyph is
+   pure CSS content driven by the details[open] attribute, and is
+   aria-hidden so it never duplicates into the accessible name. FAQ
+   keeps its own narrower 880px column instead of the standard
+   1220px section container. */
 
 .faq {
+  padding: clamp(40px, 7vw, 88px) clamp(20px, 5vw, 64px);
   background-color: var(--color-limestone);
 }
 
-.faq__header {
-  max-width: none;
-  margin-bottom: var(--space-xl);
+.faq__container {
+  max-width: 880px;
+  margin-inline: auto;
 }
 
-.faq__list {
-  display: block;
+.faq__header {
+  gap: 0;
   max-width: none;
+  margin-bottom: clamp(32px, 5vw, 48px);
+}
+
+.faq__header .section-heading__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-terracotta);
+}
+
+.faq__header .section-heading__title {
+  margin: 12px 0 0;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(30px, 4.5vw, 52px);
+  line-height: 1.02;
+  color: var(--color-forest);
 }
 
 .faq-item {
-  padding: 0;
-  background-color: transparent;
-  border-radius: 0;
-  border-top: 1px solid var(--color-border-editorial);
+  border-top: 1px solid rgba(46, 59, 54, 0.2);
 }
 
-.faq-item:last-child {
-  border-bottom: 1px solid var(--color-border-editorial);
-}
-
-.faq-item__question {
-  margin: 0;
-  padding: 1.25rem 0;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.125rem;
-  color: var(--color-forest);
-}
-
-.faq-item__answer {
-  max-width: 36rem;
-  padding: 0 0 var(--space-lg);
-}
-
-.faq-item__answer-text + .faq-item__answer-text {
-  margin-top: var(--space-sm);
-}
-
-/* FAQ — accordion enhancement */
-/* Applied only after main.js successfully builds the buttons, so a
-   failed or disabled script leaves the plain, always-visible FAQ. */
-
-.faq--enhanced .faq-item__question {
-  padding: 0;
-}
-
-.faq--enhanced .faq-item__button {
+.faq-item__summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-lg);
-  width: 100%;
-  min-height: 4.5rem;
-  padding: 1.25rem 0;
-  margin: 0;
-  border: 0;
+  gap: 16px;
+  min-height: 44px;
+  padding: 22px 0;
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq-item__summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item__summary::marker {
+  content: "";
+}
+
+.faq-item__question {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 1.125rem;
+  font-size: clamp(17px, 2vw, 20px);
   color: var(--color-forest);
-  text-align: left;
 }
 
-.faq--enhanced .faq-item__icon {
-  position: relative;
+/* Fixed-width box so the glyph swap (+ / minus sign) never shifts the
+   question text or the icon's own right-aligned position. */
+.faq-item__icon {
   flex-shrink: 0;
-  width: 1rem;
-  height: 1rem;
+  width: 22px;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-terracotta);
+  text-align: center;
 }
 
-.faq--enhanced .faq-item__icon::before,
-.faq--enhanced .faq-item__icon::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background-color: var(--color-terracotta);
-  transform: translate(-50%, -50%);
+.faq-item__icon::before {
+  content: "+";
 }
 
-.faq--enhanced .faq-item__icon::before {
-  width: 100%;
-  height: 2px;
+.faq-item[open] .faq-item__icon::before {
+  content: "\2212";
 }
 
-.faq--enhanced .faq-item__icon::after {
-  width: 2px;
-  height: 100%;
-  transition: transform 0.15s ease;
+.faq-item__answer {
+  max-width: 68ch;
+  padding: 0 0 24px;
 }
 
-.faq--enhanced .faq-item__button[aria-expanded="true"] .faq-item__icon::after {
-  transform: translate(-50%, -50%) scaleY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .faq--enhanced .faq-item__icon::after {
-    transition: none;
-  }
+.faq-item__answer-text {
+  margin: 0 0 12px;
+  font-size: 15.5px;
+  line-height: 1.62;
+  color: #4a564f;
 }
 
 /* Contact */
@@ -2180,12 +2169,6 @@ body.is-menu-open {
      offset simplifies away at tablet/mobile as required. */
   .services__item:nth-child(2n) {
     margin-top: 36px;
-  }
-
-  /* Single centered column, narrower than the shared .container, so
-     the accordion rows don't stretch full-bleed on wide viewports. */
-  .faq__container {
-    width: min(100% - 2 * var(--container-padding), 55rem);
   }
 
   /* Large photo left (spanning both rows), header + text right. No
