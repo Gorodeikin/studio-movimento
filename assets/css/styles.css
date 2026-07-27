@@ -935,62 +935,96 @@ body.is-menu-open {
 }
 
 /* Situations */
-/* Editorial direction (stage 6B.2): a numbered list rather than card
-   boxes — the terracotta number carries the visual hierarchy that the
-   old accent line used to, and a hairline rule marks each entry. At
-   desktop the five entries split into a 3 + 2 composition, all five
-   the same width (see the 64em rule below) rather than a uniform
-   single-row grid. */
+/* Self-contained pixel-first component per pixel-spec.md / dc.html — a
+   numbered list rather than card boxes: a terracotta-hover number
+   carries the visual hierarchy, a hairline rule marks each entry. At
+   desktop the five entries split into a 3 + 2 stagger (see the
+   1024px block below), not a uniform grid. */
 
-/* Stage 6B.2a correction: a visible rule under the whole header
-   (eyebrow + title + intro), scoped to Situations only — the shared
-   .section-heading component (used by Services/Approach/etc.) is not
-   touched. */
+.situations {
+  padding: clamp(40px, 7vw, 88px) clamp(20px, 5vw, 64px);
+}
+
+.situations__container {
+  max-width: 1220px;
+  margin-inline: auto;
+}
+
 .situations__header {
-  padding-bottom: var(--space-lg);
-  margin-bottom: var(--space-xl);
+  padding-bottom: 28px;
+  margin-bottom: clamp(20px, 4vw, 36px);
   border-bottom: 1px solid var(--color-border-editorial);
+}
+
+/* Typography scoped to Situations only — the shared .section-heading
+   component (used by Services/Approach/Specialist/First Visit/
+   Practical Info/FAQ/Contact) is not touched; its own font-size/
+   weight/color stay as-is for those not-yet-rebuilt sections. */
+.situations__header .section-heading__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-terracotta);
+}
+
+.situations__header .section-heading__title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(30px, 4.5vw, 52px);
+  line-height: 1.02;
+  color: var(--color-forest);
+}
+
+.situations__header .section-heading__intro {
+  max-width: 42ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #45524c;
 }
 
 .situations__list {
   display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 0;
-  margin-bottom: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px 20px;
 }
 
 .situation-card {
-  padding-block: var(--space-md);
-  border-top: 1px solid var(--color-border-editorial);
+  padding-top: 20px;
+  border-top: 1px solid rgba(46, 59, 54, 0.18);
 }
 
 .situation-card__number {
   display: block;
-  margin-bottom: var(--space-xs);
   font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.9375rem;
-  letter-spacing: 0.02em;
-  /* terracotta-hover: see the eyebrow rule above for the sage-contrast
-     rationale — kept identical across all three numbered lists. */
-  color: var(--color-terracotta-hover);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--color-terracotta);
 }
 
 .situation-card__title {
-  margin-bottom: var(--space-2xs);
+  margin: 10px 0 8px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(19px, 2vw, 22px);
+  line-height: 1.2;
+  color: var(--color-forest);
 }
 
-/* Stage 6B.2a correction: a compact, left-aligned disclaimer instead
-   of the full-width banner the shared .notice gives it — scoped here
-   so .notice itself (used by Contact/Footer/Specialist) is untouched. */
+.situation-card__text {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: #4a564f;
+}
+
 .situations__notice {
-  max-width: 32rem;
-  width: 100%;
-  padding: var(--space-xs) var(--space-sm);
-  background-color: transparent;
-  border: 1px solid var(--color-border-editorial);
-  border-radius: var(--radius-editorial-control);
-  text-align: left;
+  max-width: 70ch;
+  margin-top: clamp(32px, 5vw, 48px);
+  padding: 16px 20px;
+  border: 1px solid rgba(46, 59, 54, 0.18);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #6b7770;
 }
 
 /* Services */
@@ -1700,33 +1734,20 @@ body.is-menu-open {
 }
 
 @media (min-width: 64em) {
-  /* Stage 6B.2a correction: two-column editorial header, scoped to
-     Situations only. Row 1 (eyebrow) leaves the right column empty;
-     row 2 puts the title left / intro right, both starting on the
-     same row so intro's top aligns with the title's top, not the
-     eyebrow's. */
+  /* Desktop two-column editorial header, scoped to Situations only.
+     Row 1 (eyebrow) leaves the right column empty; row 2 puts the
+     title left / intro right, both starting on the same row via
+     align-items:start + intro's zeroed margin-top, so intro's top
+     aligns with the title's top, not the eyebrow's. */
   .situations__header {
     display: grid;
-    grid-template-columns: 7fr 5fr;
+    grid-template-columns: 1.3fr 1fr;
     grid-template-areas:
       "eyebrow ."
       "title   intro";
-    column-gap: var(--space-xl);
-    row-gap: var(--space-xs);
+    gap: 24px;
     align-items: start;
     max-width: none;
-    /* Stage 6B.2a final correction: tighter desktop rhythm — mobile/
-       tablet keep the base var(--space-xl) from the rule above. */
-    margin-bottom: var(--space-lg);
-  }
-
-  /* Stage 6B.2a final correction: desktop-only rhythm tightening — the
-     bottom half of the block's padding is dropped since row-gap now
-     carries the space between rows; mobile/tablet keep the symmetric
-     padding-block from the base rule. */
-  .situation-card {
-    padding-top: var(--space-md);
-    padding-bottom: 0;
   }
 
   .situations__header .section-heading__eyebrow {
@@ -1742,35 +1763,25 @@ body.is-menu-open {
     margin-top: 0;
   }
 
-  /* 3 + 2 (stage 6B.2a correction): all five items share the same
-     width (each spans 4 of 12 columns) — row 1 fills the full 12
-     columns edge to edge, row 2's two items are centered as a group
-     (columns 3–11) rather than stretched to the outer edges. No
-     `order` is used; DOM order stays 1–5. */
+  /* 3 + 2 stagger: all five items share the same width (each spans 4
+     of 12 columns) — row 1 fills the full 12 columns edge to edge,
+     row 2's two items are offset inward (columns 3–11) rather than
+     stretched to the outer edges. No `order` is used; DOM order
+     stays 1–5. */
   .situations__list {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--space-md);
-    row-gap: var(--space-md);
+    grid-template-columns: repeat(12, 1fr);
   }
 
-  .situations__item:nth-child(1) {
-    grid-column: 1 / 5;
-  }
-
-  .situations__item:nth-child(2) {
-    grid-column: 5 / 9;
-  }
-
-  .situations__item:nth-child(3) {
-    grid-column: 9 / 13;
+  .situations__item:nth-child(-n + 3) {
+    grid-column: span 4;
   }
 
   .situations__item:nth-child(4) {
-    grid-column: 3 / 7;
+    grid-column: 3 / span 4;
   }
 
   .situations__item:nth-child(5) {
-    grid-column: 7 / 11;
+    grid-column: 7 / span 4;
   }
 
   /* Text left (header + list), photo right, spanning both rows. */
