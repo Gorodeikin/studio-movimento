@@ -1343,62 +1343,208 @@ body.is-menu-open {
 }
 
 /* First visit */
-/* Editorial timeline ("percorso in quattro passi"), not four cards: a
-   round terracotta number stands in for the old card badge, and at
-   768px+ the shared 2-column grid (below) already reads as a 2×2
-   route in DOM order. From 1024px the four steps become one row with
-   a single connecting line through steps 01/03 and 02/04 offset
-   below it (see the 64em rule below) — a proper editorial timeline
-   rather than a repeated per-step divider. */
+/* Self-contained pixel-first component per pixel-spec.md / dc.html —
+   three distinct responsive treatments, not one simplified layout:
+   <640px a vertical route (line + dots stacked top to bottom),
+   640-1023px a 2x2 grid with the connecting line hidden (it would
+   otherwise cross awkwardly through two rows), >=1024px a single
+   horizontal row with one continuous line and steps 02/04 offset
+   down for editorial rhythm (see the 640px/1024px blocks below). */
 
 .first-visit {
+  padding: clamp(40px, 7vw, 88px) clamp(20px, 5vw, 64px);
   background-color: var(--color-limestone);
 }
 
+.first-visit__container {
+  max-width: 1220px;
+  margin-inline: auto;
+}
+
+.first-visit__header {
+  gap: 0;
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.first-visit__header .section-heading__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-terracotta);
+}
+
+.first-visit__header .section-heading__title {
+  margin: 12px 0 16px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(30px, 4.5vw, 52px);
+  line-height: 1.02;
+  color: var(--color-forest);
+}
+
+.first-visit__header .section-heading__intro {
+  max-width: 56ch;
+  margin: 0 0 clamp(24px, 4vw, 40px);
+  font-size: 17px;
+  line-height: 1.6;
+  color: #45524c;
+}
+
 .first-visit__list {
-  display: grid;
-  gap: var(--space-lg) var(--space-md);
-  counter-reset: visit-step;
-  margin-bottom: var(--space-lg);
+  position: relative;
+}
+
+/* Mobile: a continuous vertical line on the left, stopping short of
+   the last dot's bottom edge (bottom:40px matches each row's own
+   padding-bottom below). */
+.first-visit__line {
+  position: absolute;
+  top: 0;
+  bottom: 40px;
+  left: 20px;
+  width: 1px;
+  background-color: rgba(46, 59, 54, 0.25);
+}
+
+.first-visit__steps {
+  display: flex;
+  flex-direction: column;
 }
 
 .visit-step {
-  padding-top: var(--space-md);
-  border-top: 1px solid var(--color-border-editorial);
-  counter-increment: visit-step;
+  position: relative;
+  display: flex;
+  gap: 20px;
+  padding-bottom: 40px;
 }
 
-.visit-step::before {
-  content: counter(visit-step, decimal-leading-zero);
+.visit-step__number {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-bottom: var(--space-sm);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: var(--color-terracotta);
   color: var(--color-limestone);
   font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.9375rem;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.visit-step__content {
+  flex: 1;
 }
 
 .visit-step__title {
-  margin-bottom: var(--space-2xs);
+  margin: 0 0 8px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--color-forest);
 }
 
-.visit-step__text + .visit-step__text {
-  margin-top: 0;
+.visit-step__text {
+  max-width: 40ch;
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.58;
+  color: #4a564f;
 }
 
-/* Larger, more assertive CTA than the shared .button--accent default —
-   local to First Visit so other .button--accent uses (Header/Hero)
-   are untouched. */
 .first-visit__cta {
-  min-height: 4.5rem;
-  padding-inline: var(--space-lg);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: clamp(40px, 6vw, 56px);
+  padding: 16px 28px;
+  background-color: var(--color-terracotta);
+  color: var(--color-limestone);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.first-visit__cta:hover {
+  background-color: var(--color-terracotta-hover);
+  color: var(--color-limestone);
+}
+
+.first-visit__cta:active {
+  background-color: var(--color-terracotta-hover);
+}
+
+/* Tablet (640-1023px): 2x2 grid, connecting line hidden, dot sits
+   above its own step's title/body instead of beside it. */
+@media (min-width: 640px) {
+  .first-visit__line {
+    display: none;
+  }
+
+  .first-visit__steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 32px;
+  }
+
+  .visit-step {
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 8px;
+  }
+
+  .visit-step__number {
+    margin-bottom: 16px;
+  }
+
+  .visit-step__content {
+    padding-right: 16px;
+  }
+}
+
+/* Desktop (>=1024px): one horizontal row, single continuous line
+   through the dots' vertical center, steps 02/04 offset down. */
+@media (min-width: 1024px) {
+  .first-visit__line {
+    display: block;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: auto;
+    width: auto;
+    height: 1px;
+  }
+
+  .first-visit__steps {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .visit-step {
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 0;
+  }
+
+  .visit-step__number {
+    margin-bottom: 20px;
+  }
+
+  .visit-step__content {
+    padding-right: 24px;
+  }
+
+  .first-visit__item:nth-child(2n) {
+    margin-top: 64px;
+  }
 }
 
 /* Practical info */
@@ -1843,7 +1989,6 @@ body.is-menu-open {
 @media (min-width: 48em) {
   /* 768px */
 
-  .first-visit__list,
   .practical-info__list {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1972,67 +2117,6 @@ body.is-menu-open {
      offset simplifies away at tablet/mobile as required. */
   .services__item:nth-child(2n) {
     margin-top: 36px;
-  }
-
-  /* Timeline: one hairline through steps 01/03; 02/04 sit 4rem lower
-     via margin (not `order`), so DOM order stays 01→04. The line's
-     top (1.25rem) is the vertical center of the 2.5rem circle on
-     01/03 — it passes through their circle, never through text. This
-     overrides the shared 48em 2-column rule above, so it must stay
-     after it in source order. */
-  .first-visit__cta {
-    width: fit-content;
-    min-width: 17.25rem;
-    margin-top: var(--space-xl);
-  }
-
-  /* Wider than the shared .container cap so the four text columns get
-     more room and their line breaks land closer to the approved
-     layout — First Visit-only, other sections keep the shared width. */
-  .first-visit__container {
-    width: min(100% - 2 * var(--container-padding), 81rem);
-  }
-
-  .first-visit__header {
-    max-width: 60rem;
-  }
-
-  .first-visit__header .section-heading__intro {
-    max-width: 32rem;
-  }
-
-  .first-visit__list {
-    position: relative;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    column-gap: var(--space-lg);
-    margin-bottom: 0;
-  }
-
-  .first-visit__list::before {
-    content: "";
-    position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
-    right: 1.25rem;
-    height: 1px;
-    background-color: var(--color-border-editorial);
-    z-index: 0;
-  }
-
-  .visit-step {
-    width: 100%;
-    max-width: none;
-    padding-top: 0;
-    border-top: none;
-  }
-
-  .visit-step::before {
-    position: relative;
-    z-index: 1;
-  }
-
-  .visit-step:nth-child(even) {
-    margin-top: 4rem;
   }
 
   /* Stage 6B.R3: a single-row, four-column ledger — header full-width
